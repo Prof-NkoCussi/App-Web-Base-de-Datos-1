@@ -27,7 +27,7 @@ assets/css/estilos.css   paleta en :root, mobile first, modo hoja A4
 assets/js/actividades.js botón PDF, resaltado de la barra, "✓ Visto" (localStorage)
 assets/fonts/            Barlow, Barlow Semi Condensed, Barlow Condensed (locales)
 assets/img/
-README.md                pendiente: se arma al final
+README.md                presentación del sitio + tabla de TPs con su estado
 ```
 
 HTML, CSS y JavaScript vanilla. Sin frameworks, sin build, sin backend, sin dependencias externas.
@@ -49,6 +49,7 @@ Reglas fijas:
 - **Nunca** incluir la frase "DATOS · IDEAS · OPORTUNIDADES" (está en el PDF, Nicolás la sacó).
 - `<body data-tp="N">` en cada TP.
 - Al terminar un TP, activarlo en `index.html`: pasar su `div.tp.tp--pronto` a `a.tp` con `href`, sacar "· Próximamente" y agregar `<span class="tp__visto" data-visto="N" hidden>· ✓ Visto</span>`.
+- Al terminar un TP, actualizar su estado en la tabla "Contenidos" de `README.md` ("Próximamente" → "✅ Disponible").
 
 ## Diseño
 
@@ -99,4 +100,3 @@ El resto del PDF (págs. 15–21, 23–24 y 28–40) pertenece a Base de Datos I
 - **Antes del TP4:** qué planilla usan en la escuela (Excel y versión, LibreOffice Calc o Google Sheets). BUSCARX no existe en Excel 2019 o anterior.
 - **TPs prácticos (planilla, XAMPP):** si las actividades van en la carpeta, en la computadora o en ambas.
 - **TP9:** la instalación de XAMPP se practica en Software II; la lámina queda como guía básica. "Para profundizar": qué es SQL y tipos de datos en SQL, conectados con el TP2. Sumar una consola SQL en la página (sql.js; es la única dependencia externa prevista, consultar antes de agregarla).
-- **README.md:** se arma al final.
