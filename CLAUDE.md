@@ -45,7 +45,11 @@ HTML, CSS y JavaScript vanilla. Sin frameworks, sin build, sin backend, sin depe
 Reglas fijas:
 - Pie de cada hoja: `Base de Datos I - Prof. Nicolás A. Cussi` + número de lámina (o `TP N` en profundizar y actividades).
 - Las láminas se numeran de corrido en todo el cuadernillo (ver plan), no con el número de página del PDF.
-- Cabecera de cada hoja: "BASES DE DATOS Y SQL · DESDE CERO" y "Trabajo Práctico N°X" (en `.cab__lema`, en mayúsculas: `TRABAJO PRÁCTICO N°X`, una sola línea). En pantallas de menos de 480 px se oculta la rayita cian para que entre. La portada (`index.html`) no lleva ese texto.
+- Cabecera de cada hoja: "BASES DE DATOS Y SQL · DESDE CERO" y "Trabajo Práctico N°X": `<div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°X</span></div>`.
+  - "TRABAJO PRÁCTICO N°X" se ve igual que "BASES DE DATOS Y SQL": mismo tamaño, negrita, mismo color y en mayúsculas (comparten la regla CSS), en una sola línea.
+  - A su derecha va una barra cian vertical (`.cab__raya`), angosta y del alto del bloque de texto.
+  - En el celular (menos de 480 px) los dos textos se achican por igual y "N°X" pasa a un segundo renglón; siempre del mismo tamaño entre sí y sin scroll horizontal a 390 y 360 px.
+  - La portada (`index.html`) no lleva ese texto.
 - **Nunca** incluir las frases "DATOS · IDEAS · OPORTUNIDADES" ni "APRENDER DATOS / CONSTRUYE FUTUROS" (están en el PDF, Nicolás las sacó).
 - `<body data-tp="N">` en cada TP.
 - Al terminar un TP, activarlo en `index.html`: pasar su `div.tp.tp--pronto` a `a.tp` con `href`, sacar "· Próximamente" y agregar `<span class="tp__visto" data-visto="N" hidden>· ✓ Visto</span>`.

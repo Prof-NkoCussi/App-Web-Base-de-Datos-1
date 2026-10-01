@@ -147,26 +147,31 @@ button.boton { border: 0; font-family: inherit; cursor: pointer; }
 
 /* --- Cabecera --- */
 .cab { display: flex; align-items: center; gap: 12px; }
-.cab__logo { width: 34px; height: 34px; color: var(--tinta); }
+.cab__logo { width: 34px; height: 34px; color: var(--tinta); flex: none; }
 .cab__marca {
   display: flex; flex-direction: column;
   padding-left: 12px; border-left: 1.5px solid var(--linea);
   line-height: 1.15;
 }
-.cab__marca b { font-size: 14px; font-weight: 700; letter-spacing: .02em; color: var(--tinta); }
-.cab__marca span { font-size: 11px; letter-spacing: .22em; color: var(--gris); }
-.cab__lema {
-  margin-left: auto; text-align: left;
-  font-size: 8.5px; font-weight: 600; letter-spacing: .2em; line-height: 1.5; color: var(--gris);
-  white-space: nowrap;
+/* "BASES DE DATOS Y SQL" y "TRABAJO PRÁCTICO N°X" llevan siempre el mismo tamaño */
+.cab__marca b, .cab__lema {
+  font-size: 14px; font-weight: 700; letter-spacing: .02em; color: var(--tinta);
+  text-transform: uppercase; white-space: nowrap;
 }
-.cab__raya { width: 26px; height: 5px; background: var(--cian); flex: none; }
+.cab__marca span { font-size: 11px; letter-spacing: .22em; color: var(--gris); }
+.cab__lema { margin-left: auto; text-align: right; line-height: 1.15; }
+/* barra vertical del alto del bloque de texto (2 renglones de .cab__marca) */
+.cab__raya { width: 5px; height: 29px; background: var(--cian); flex: none; }
 .cab__marca + .cab__raya { margin-left: auto; }
-.cab__marca b { white-space: nowrap; }
 @media (max-width: 479px) {
   .cab { gap: 10px; }
-  .cab__lema { letter-spacing: .12em; }
-  .cab__lema + .cab__raya { display: none; }
+  .cab__marca b, .cab__lema { font-size: 13px; }
+  .cab__lema-n { display: block; }
+  .cab__raya { height: 30px; }
+}
+@media (max-width: 379px) {
+  .cab__marca b, .cab__lema { font-size: 12px; }
+  .cab__raya { height: 28px; }
 }
 
 /* --- Título --- */
@@ -547,7 +552,8 @@ button.boton { border: 0; font-family: inherit; cursor: pointer; }
 
   /* Tamaños para llenar la hoja A4 */
   .cab__logo { width: 40px; height: 40px; }
-  .cab__marca b { font-size: 15px; }
+  .cab__marca b, .cab__lema { font-size: 15px; }
+  .cab__raya { height: 31px; }
   .cab__marca span { font-size: 12px; }
   .texto { font-size: 18.5px; }
   .intro { padding: 16px 18px; gap: 18px; }
