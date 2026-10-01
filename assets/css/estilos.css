@@ -158,12 +158,15 @@ button.boton { border: 0; font-family: inherit; cursor: pointer; }
 .cab__lema {
   margin-left: auto; text-align: left;
   font-size: 8.5px; font-weight: 600; letter-spacing: .2em; line-height: 1.5; color: var(--gris);
+  white-space: nowrap;
 }
 .cab__raya { width: 26px; height: 5px; background: var(--cian); flex: none; }
+.cab__marca + .cab__raya { margin-left: auto; }
 .cab__marca b { white-space: nowrap; }
 @media (max-width: 479px) {
-  .cab__lema { display: none; }
-  .cab__raya { margin-left: auto; }
+  .cab { gap: 10px; }
+  .cab__lema { letter-spacing: .12em; }
+  .cab__lema + .cab__raya { display: none; }
 }
 
 /* --- Título --- */

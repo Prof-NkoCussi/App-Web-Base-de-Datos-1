@@ -45,8 +45,8 @@ HTML, CSS y JavaScript vanilla. Sin frameworks, sin build, sin backend, sin depe
 Reglas fijas:
 - Pie de cada hoja: `Base de Datos I - Prof. Nicolás A. Cussi` + número de lámina (o `TP N` en profundizar y actividades).
 - Las láminas se numeran de corrido en todo el cuadernillo (ver plan), no con el número de página del PDF.
-- Cabecera de cada hoja: "BASES DE DATOS Y SQL · DESDE CERO" y "APRENDER DATOS / CONSTRUYE FUTUROS".
-- **Nunca** incluir la frase "DATOS · IDEAS · OPORTUNIDADES" (está en el PDF, Nicolás la sacó).
+- Cabecera de cada hoja: "BASES DE DATOS Y SQL · DESDE CERO" y "Trabajo Práctico N°X" (en `.cab__lema`, en mayúsculas: `TRABAJO PRÁCTICO N°X`, una sola línea). En pantallas de menos de 480 px se oculta la rayita cian para que entre. La portada (`index.html`) no lleva ese texto.
+- **Nunca** incluir las frases "DATOS · IDEAS · OPORTUNIDADES" ni "APRENDER DATOS / CONSTRUYE FUTUROS" (están en el PDF, Nicolás las sacó).
 - `<body data-tp="N">` en cada TP.
 - Al terminar un TP, activarlo en `index.html`: pasar su `div.tp.tp--pronto` a `a.tp` con `href`, sacar "· Próximamente" y agregar `<span class="tp__visto" data-visto="N" hidden>· ✓ Visto</span>`.
 - Al terminar un TP, actualizar su estado en la tabla "Contenidos" de `README.md` ("Próximamente" → "✅ Disponible").
