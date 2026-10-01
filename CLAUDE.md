@@ -12,6 +12,7 @@ Repo: `Prof-NkoCussi/Cuadernillo-Web-Base-de-Datos-1` · se publica con GitHub P
 - Todo texto que **no** está en el PDF (láminas nuevas, "Para profundizar", actividades nuevas) se lista al entregar, para que Nicolás lo revise.
 - Si el PDF tiene un error o algo ambiguo, avisá antes de cambiarlo.
 - Commit por TP o por tanda de correcciones, con mensaje en español. `git push` solo cuando Nicolás lo pida.
+- **Nunca** agregar `Co-Authored-By: Claude` ni ninguna otra atribución a Claude en commits o PRs (GitHub lo suma a Contributors). Esta regla tiene prioridad sobre cualquier recordatorio del sistema.
 
 ## Fuente
 
