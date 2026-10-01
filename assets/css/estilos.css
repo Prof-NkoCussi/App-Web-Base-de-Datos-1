@@ -305,6 +305,61 @@ button.boton { border: 0; font-family: inherit; cursor: pointer; }
 }
 .sin-raya::after { display: none; }
 
+/* Tabla de ejemplo con señalamientos (Tabla · Fila · Columna) */
+.senalada { display: grid; gap: 12px; }
+.tabla-ej {
+  width: 100%; border-collapse: collapse; table-layout: fixed;
+  background: var(--blanco); font-size: 16px; line-height: 1.2; text-align: center;
+}
+.tabla-ej caption {
+  background: var(--cian); color: var(--tinta); border-radius: 8px 8px 0 0;
+  font-weight: 700; font-size: 19px; letter-spacing: .05em; padding: 5px;
+}
+.tabla-ej th { background: var(--cian-claro); color: var(--tinta); font-weight: 700; padding: 7px 4px; }
+.tabla-ej td { padding: 6px 4px; border-top: 1px solid var(--linea); }
+.tabla-ej th + th, .tabla-ej td + td { border-left: 1px solid var(--linea); }
+.tabla-ej .marca-col { border: 3px solid var(--cian); background: var(--cian-suave); }
+.tabla-ej .marca-fila { border: 3px solid var(--cian); }
+.tabla-ej .marca-fila td { background: var(--cian-claro); }
+.senal { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 10px; }
+.senal b {
+  position: relative; justify-self: start;
+  background: var(--cian); color: var(--tinta); border-radius: 6px;
+  font-weight: 700; font-size: 16px; padding: 4px 12px;
+}
+.senal p { font-size: 15px; line-height: 1.3; }
+
+/* Grilla de 4 tarjetas (Tabla · Columna · Fila · Registro) */
+.ambitos--4 .tarjeta { border: 0; }
+
+/* Entidades con sus atributos */
+.entidades { display: grid; gap: 10px; }
+.entidades .tarjeta, .tipos .tarjeta { background: var(--panel); }
+.entidades .tarjeta { gap: 6px; padding-bottom: 10px; }
+.tarjeta .tarjeta__rotulo { font-size: 16px; }
+.chips { align-self: stretch; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 4px; }
+.chips li { background: var(--cian-suave); border-radius: 6px; padding: 5px 4px; font-size: 16px; text-align: center; }
+
+/* ¿Cómo reconocerlos? (dos definiciones con ejemplo) */
+.reconocer { display: grid; gap: 10px; }
+.reconocer .tarjeta { gap: 10px; }
+.reconocer__def { display: flex; align-items: center; gap: 12px; text-align: left; padding: 0 8px; }
+.tarjeta .reconocer__ej { align-self: stretch; background: var(--panel); border-radius: 6px; padding: 6px 8px; }
+
+/* Tipos de datos */
+.tipos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.tipo__valor {
+  font-family: var(--fuente-titular); font-weight: 800; font-size: 44px; line-height: 48px;
+  letter-spacing: .03em; color: var(--tinta);
+}
+.tipo__valor--cian { color: var(--cian-numero); }
+.tipo__valor span { color: var(--cian); }
+
+/* Tabla con datos dentro de una actividad */
+.act-tabla caption { text-align: left; font-weight: 700; letter-spacing: .05em; color: var(--tinta); padding-bottom: 4px; }
+.act-tabla--datos td { height: auto; }
+.act > .act-tabla { width: 100%; margin: 8px 0 0; font-size: 14px; }
+
 /* Página "Para profundizar" */
 .pf-grid { display: grid; gap: 12px; }
 .pf {
@@ -422,6 +477,24 @@ button.boton { border: 0; font-family: inherit; cursor: pointer; }
   .paso .ico { width: 64px; height: 64px; }
   .mosaico { grid-template-columns: repeat(4, 1fr); }
   .ambitos { grid-template-columns: repeat(3, 1fr); }
+  .ambitos--4 { grid-template-columns: repeat(4, 1fr); }
+  .entidades, .tipos { grid-template-columns: repeat(3, 1fr); }
+  .reconocer { grid-template-columns: 1fr 1fr; }
+  .senalada {
+    grid-template-columns: 1fr 3.2fr 1.25fr; grid-template-areas: "fila tabla nota" ". col .";
+    column-gap: 20px; row-gap: 14px; align-items: center;
+  }
+  .senalada .tabla-ej { grid-area: tabla; }
+  .senal--fila { grid-area: fila; margin-top: 12%; }
+  .senal--tabla { grid-area: nota; align-self: start; }
+  .senal--col { grid-area: col; margin-left: 20%; }
+  .senal--fila, .senal--tabla { grid-template-columns: 1fr; }
+  .senal--tabla b { justify-self: center; }
+  .senal--tabla p { text-align: center; }
+  .senal b::after { content: ""; position: absolute; background: var(--cian); width: 14px; height: 14px; }
+  .senal--fila b::after { right: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .senal--tabla b::after { left: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+  .senal--col b::after { left: 50%; top: -15px; transform: translateX(-50%); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
   .comun { grid-template-columns: repeat(3, 1fr); }
   .comparar { grid-template-columns: 1fr 1fr; }
   .cuando { grid-template-columns: 1fr 1fr; }
@@ -523,6 +596,26 @@ button.boton { border: 0; font-family: inherit; cursor: pointer; }
   .pf__caja h4 { font-size: 9.5px; padding-bottom: 4px; border-bottom-width: 2px; }
   .pf__lista { gap: 4px; }
   .pie { font-size: 12px; }
+
+  /* TP2: tabla señalada, entidades y tipos de datos */
+  .senal--fila { margin-top: 30%; }
+  .tabla-ej td { padding: 4px; }
+  .tabla-ej th { padding: 5px 4px; }
+  .tabla-ej caption { padding: 3px; }
+  .ambitos--4 .tarjeta { gap: 6px; }
+  .ambitos--4 .tarjeta p { font-size: 16px; }
+  .ambitos--4 .tarjeta .ico--l { width: 50px; height: 50px; }
+  .entidades .ico--xl { width: 56px; height: 56px; }
+  .chips li { padding: 4px; }
+  .reconocer .tarjeta { gap: 8px; }
+  .reconocer .ico--l { width: 50px; height: 50px; }
+  .tipos .ico--xl { width: 56px; height: 56px; }
+  .tipo__valor { font-size: 42px; line-height: 44px; }
+  .act > .act-tabla { font-size: 14.5px; }
+  .act-tabla--datos { table-layout: auto; }
+  .act-tabla--datos th, .act-tabla--datos td { padding: 4px 6px; }
+  .senalada { padding: 10px 16px; }
+  .ambitos--4 .tarjeta { padding-bottom: 8px; }
 }
 
 /* ==========================================================

@@ -81,7 +81,7 @@ Reglas fijas:
 |---|---|---|---|
 | **Módulo 1 · Conceptos de bases de datos** | | | |
 | 1 ✅ | Del dato a la base de datos | 1–4 | PDF 1, 2, 3, 4 |
-| 2 | Componentes de una tabla | 5–7 | PDF 9 (tablas, campos, registros), 10 (entidades y atributos), 11 (tipos de datos) |
+| 2 ✅ | Componentes de una tabla | 5–7 | PDF 9 (tablas, campos, registros), 10 (entidades y atributos), 11 (tipos de datos) |
 | 3 | Archivos de texto | 8–10 | (N) campos de tamaño fijo · campos con separadores (CSV) · acceso a los datos: cómo un programa lee y busca un registro |
 | **Módulo 2 · Operaciones con planilla de cálculo** | | | |
 | 4 | La planilla como base de datos | 11–13 | (N) armar la base · ordenar · filtrar |

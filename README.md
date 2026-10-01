@@ -27,7 +27,7 @@ Una versión web del cuadernillo "Bases de Datos y SQL · Desde cero", pensada p
 |---|---|---|
 | **Módulo 1 · Conceptos de bases de datos** | | |
 | 1 | Del dato a la base de datos | ✅ Disponible |
-| 2 | Componentes de una tabla | Próximamente |
+| 2 | Componentes de una tabla | ✅ Disponible |
 | 3 | Archivos de texto | Próximamente |
 | **Módulo 2 · Operaciones con planilla de cálculo** | | |
 | 4 | La planilla como base de datos | Próximamente |
