@@ -1,14 +1,14 @@
 # Base de Datos I · Cuadernillo web
 
-Cuadernillo de actividades de **Base de Datos I** (5.º año) para la especialidad Técnico en Programación del C.T.P. "Olga B. de Arko", Ushuaia.
+Cuadernillo de actividades de **Base de Datos I** (5.º año)
 
 **Prof. Nicolás A. Cussi**
 
-👉 **Entrá acá:** https://prof-nkocussi.github.io/Cuadernillo-Web-Base-de-Datos-1/
+👉 **Entrá acá:** https://prof-nkocussi.github.io/App-Web-Base-de-Datos-1/
 
 ## Qué es
 
-Una versión web del cuadernillo "Bases de Datos y SQL · Desde cero", pensada para leer desde el celular. Está organizada en trabajos prácticos (TP). Cada TP tiene:
+Una versión web de cuadernillo "Bases de Datos y SQL · Desde cero", pensada para leer desde la Pc o el celular. Está organizada en trabajos prácticos (TP). Cada TP tiene:
 
 1. **Láminas** con la teoría, una por tema.
 2. **Para profundizar**: una página que amplía cada lámina con ejemplos.
