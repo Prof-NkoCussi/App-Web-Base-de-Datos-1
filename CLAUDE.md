@@ -2,7 +2,7 @@
 
 Sitio estático que convierte el cuadernillo PDF "Bases de Datos y SQL · Desde cero" en TPs web.
 Docente: Prof. Nicolás A. Cussi · Técnico en Programación · C.T.P. "Olga B. de Arko" · Ushuaia.
-Repo: `Prof-NkoCussi/Cuadernillo-Web-Base-de-Datos-1` · se publica con GitHub Pages · los alumnos lo abren desde el celular.
+Repo: `Prof-NkoCussi/App-Web-Base-de-Datos-1` · se publica con GitHub Pages en https://prof-nkocussi.github.io/App-Web-Base-de-Datos-1/ · los alumnos lo abren desde el celular.
 
 ## Forma de trabajo
 
