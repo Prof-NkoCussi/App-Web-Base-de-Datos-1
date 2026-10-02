@@ -1,6 +1,6 @@
 # Base de Datos I · Cuadernillo web
 
-Cuadernillo de actividades de **Base de Datos I** (5.º año)
+Cuadernillo de actividades de **Base de Datos I** (5º año)
 
 **Prof. Nicolás A. Cussi**
 
