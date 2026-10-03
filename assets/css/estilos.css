@@ -33,10 +33,15 @@
 
   --foco: #1E3A8A;          /* contorno de foco del teclado */
 
+  /* TP3: campos alternados dentro de un archivo de texto */
+  --campo-a: var(--cian-claro);
+  --campo-b: #DDE3E9;
+
   --radio: 10px;
   --fuente: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --fuente-titulo: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
   --fuente-titular: "Barlow Condensed", "Barlow Semi Condensed", system-ui, sans-serif;
+  --fuente-mono: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 /* ---------- Base ---------- */
@@ -464,6 +469,84 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .act-tabla tbody th { font-weight: 600; color: var(--tinta); }
 
 /* ==========================================================
+   TP3: archivos de texto, separadores y pseudocódigo
+   ========================================================== */
+code {
+  font-family: var(--fuente-mono); font-size: .9em; color: var(--tinta);
+  background: var(--blanco); border-radius: 4px; padding: 1px 5px; white-space: pre;
+}
+
+/* Ventana de un archivo (nombre arriba, contenido en monoespaciado) */
+.archivo {
+  width: fit-content; max-width: 100%; margin: 0;
+  background: var(--blanco); border: 1.5px solid var(--linea); border-radius: 8px; overflow: hidden;
+}
+.archivo__nombre {
+  background: var(--tinta); color: var(--blanco);
+  font-family: var(--fuente-mono); font-size: 13px; font-weight: 600; padding: 4px 12px;
+}
+.archivo__txt {
+  margin: 0; padding: 8px 14px 10px; overflow-x: auto;
+  font-family: var(--fuente-mono); font-size: 15px; line-height: 1.65; color: var(--tinta);
+}
+.archivo__regla, .archivo__n { color: var(--gris); }
+.archivo__n { user-select: none; }
+.archivo__enc { font-weight: 700; }
+.c-a { background: var(--campo-a); }
+.c-b { background: var(--campo-b); }
+/* espacios visibles: un punto por cada carácter */
+.esp {
+  background-image: radial-gradient(circle, var(--gris) 0 1.4px, transparent 1.9px);
+  background-size: 1ch 100%; background-repeat: repeat-x;
+}
+.sep { background: var(--cian); color: var(--tinta); border-radius: 3px; font-weight: 700; }
+
+/* Archivo + explicación (una columna en el celular, dos en pantalla ancha) */
+.archivo-ej { display: grid; gap: 12px; align-items: start; }
+.tabla-campos { text-align: left; }
+.tabla-campos th, .tabla-campos td { padding-left: 8px; }
+.tabla-campos tbody th { background: var(--blanco); border-top: 1px solid var(--linea); font-family: var(--fuente-mono); font-size: .95em; }
+.tabla-campos tbody td { border-left: 1px solid var(--linea); }
+.muestra { display: inline-block; width: 12px; height: 12px; margin-right: 7px; border: 1px solid var(--linea); border-radius: 2px; vertical-align: -1px; }
+.lista-txt { display: grid; gap: 6px; font-size: 16px; line-height: 1.35; }
+
+/* Separadores: carácter grande + ejemplo */
+.glifo { width: 48px; text-align: center; flex: none; }
+.glifo--bajo { transform: translateY(-.24em); }   /* coma y punto y coma: subirlos al centro */
+.glifo--alto { transform: translateY(.26em); }    /* comillas: bajarlas al centro */
+.comun code, .cuando code { display: block; width: fit-content; margin-top: 3px; }
+.comun code { background: var(--panel); }
+.comun--suelto li { background: var(--panel); }
+.sin-raya + .texto { margin-top: 8px; }
+
+/* Pseudocódigo con número de línea */
+.pseudo {
+  counter-reset: ln; display: grid;
+  background: var(--blanco); border-radius: 8px; padding: 8px 0;
+  font-family: var(--fuente-mono); font-size: 14px; line-height: 1.45; color: var(--tinta);
+}
+.pseudo li { counter-increment: ln; display: flex; align-items: baseline; gap: 10px; padding: 1px 10px 1px 0; }
+.pseudo li::before {
+  content: counter(ln); flex: none; width: 2.4em; padding-right: .6em; text-align: right;
+  color: var(--gris); border-right: 2px solid var(--panel-linea);
+}
+.pseudo__c { flex: 1; min-width: 0; }
+.pseudo .i1 .pseudo__c { padding-left: 2ch; }
+.pseudo .i2 .pseudo__c { padding-left: 4ch; }
+.pseudo b { font-weight: 700; }
+.pseudo__com { color: var(--gris); }
+.pseudo__paso {
+  flex: none; font-family: var(--fuente); font-size: 12px; font-weight: 700; letter-spacing: .04em;
+  background: var(--cian); color: var(--tinta); border-radius: 999px; padding: 1px 8px;
+}
+.pf__caja code { background: var(--panel); }
+.act__items .archivo { margin-top: 8px; }
+/* Actividad con un archivo al costado de las consignas (en pantalla ancha) */
+.act__cuerpo { display: grid; gap: 0 14px; align-items: start; }
+.act__cuerpo > .archivo, .act__archivos { margin-top: 9px; }
+.act__archivos { display: grid; gap: 8px; justify-items: start; }
+
+/* ==========================================================
    Pantallas medianas: secuencias horizontales
    ========================================================== */
 @media (min-width: 600px), print {
@@ -507,6 +590,8 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   .pf__cols { grid-template-columns: 1.25fr 1fr; gap: 14px; }
   .ejemplo { grid-template-columns: auto auto 1fr; }
   .ejemplo p { grid-column: auto; padding-left: 12px; border-left: 2px solid var(--panel-linea); }
+  .archivo-ej { grid-template-columns: auto 1fr; gap: 16px; }
+  .act__cuerpo { grid-template-columns: auto 1fr; }
 }
 
 /* ==========================================================
@@ -621,6 +706,19 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   .act-tabla--datos th, .act-tabla--datos td { padding: 4px 6px; }
   .senalada { padding: 10px 16px; }
   .ambitos--4 .tarjeta { padding-bottom: 8px; }
+
+  /* TP3: archivos de texto y pseudocódigo */
+  .archivo__txt { font-size: 16px; }
+  .archivo--grande .archivo__txt { font-size: 20px; }
+  .archivo--grande .archivo__nombre { font-size: 14px; }
+  .tabla-campos { font-size: 17px; }
+  .tabla-campos td, .tabla-campos tbody th { padding: 7px 8px; }
+  .lista-txt { font-size: 17px; }
+  .pseudo { font-size: 15.5px; }
+  .act .archivo__txt { font-size: 14.5px; line-height: 1.5; padding: 6px 12px 8px; }
+  .comun--suelto { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .comun--suelto li { padding: 10px 12px; gap: 10px; font-size: 18px; }
+  .comun--suelto .glifo, .comun--suelto .ico { width: 40px; }
 }
 
 /* ==========================================================
