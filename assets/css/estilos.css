@@ -93,10 +93,6 @@ a { color: inherit; }
   display: flex; align-items: center; gap: 10px;
   max-width: 210mm; margin: 0 auto; padding: 8px 16px;
 }
-.barra__volver {
-  text-decoration: none; font-weight: 600; font-size: 15px;
-  padding: 8px 4px; color: var(--tinta);
-}
 .barra__volver, .boton { flex: none; }
 .barra__titulo {
   flex: 1; min-width: 0; text-align: center;
@@ -113,7 +109,7 @@ a { color: inherit; }
   text-decoration: none; font-weight: 600; font-size: 14px;
   padding: 8px 12px; border-radius: 8px;
 }
-button.boton { border: 0; font-family: inherit; cursor: pointer; }
+button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: pointer; }
 .boton:hover { background: #263244; }
 .boton svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 

@@ -35,7 +35,10 @@ HTML, CSS y JavaScript vanilla. Sin frameworks, sin build, sin backend, sin depe
 
 ## Formato de cada TP — copiar la estructura de `unidades/tp01.html`
 
-1. **Barra superior** (`header.barra`): "← Índice" · "TP N°X — nombre del TP" · botón `data-imprimir`. Debajo, `nav.partes` con accesos a cada lámina, "Para profundizar" y "Actividades".
+1. **Barra superior** (`header.barra`): botón "Índice" · "TP N°X — nombre del TP" · botón PDF (`data-imprimir`). Debajo, `nav.partes` con accesos a cada lámina, "Para profundizar" y "Actividades".
+   - El botón "Índice" es igual al de PDF (clase `.boton`: mismo fondo, texto blanco, mismo alto), con flecha hacia atrás en lugar de la de descarga: `<a class="boton barra__volver" href="../index.html"><svg aria-hidden="true" focusable="false"><use href="#i-atras"/></svg><span>Índice</span></a>`.
+   - En el sprite, junto a `i-descarga`: `<symbol id="i-atras" viewBox="0 0 24 24"><path d="M20 12H5M11 6l-6 6 6 6"/></symbol>`.
+   - Controlar a 360 px y en pantalla ancha: barra sin scroll horizontal y los dos botones del mismo alto y color.
 2. **Láminas** (`article.lamina#pag-N`): `.cab` → `.tit` (número en cian + título + subtítulo) → bloques → `.idea` (Idea clave) → `.pie`.
 3. **Para profundizar** (`article.lamina.lamina--pf#profundizar`): `.pf-grid` de 2×2, un bloque `.pf` por lámina (texto + recuadro `.pf__caja` con ejemplo o lista). Si el TP tiene 3 láminas, el cuarto bloque integra o suma un ejemplo.
 4. **Actividades para hacer en la carpeta** (`article.lamina.lamina--act`, ids `actividades` y `actividades-2`): banda `.act-banda`, `.consigna`, y puntos `.act` con incisos a), b), c).
@@ -44,7 +47,8 @@ HTML, CSS y JavaScript vanilla. Sin frameworks, sin build, sin backend, sin depe
    - Entran en dos hojas ("Parte 1 de 2" y "Parte 2 de 2").
 
 Reglas fijas:
-- Pie de cada hoja: `Base de Datos I - Prof. Nicolás A. Cussi` + número de lámina (o `TP N` en profundizar y actividades).
+- Pie de cada hoja (láminas, "Para profundizar", actividades): `Base de Datos I — Prof. Nicolás A. Cussi` + número de lámina (o `TP N` en profundizar y actividades). En `index.html`, el mismo texto sin número.
+  - Antes de "Prof." va guion largo (—) con un espacio a cada lado; nunca guion corto (-), "|" ni "·". Si el nombre de la materia tiene un guion adentro, ese queda corto.
 - Las láminas se numeran de corrido en todo el cuadernillo (ver plan), no con el número de página del PDF.
 - Cabecera de cada hoja: "BASES DE DATOS Y SQL · DESDE CERO" y "Trabajo Práctico N°X": `<div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°X</span></div>`.
   - "TRABAJO PRÁCTICO N°X" se ve igual que "BASES DE DATOS Y SQL": mismo tamaño, negrita, mismo color y en mayúsculas (comparten la regla CSS), en una sola línea.
