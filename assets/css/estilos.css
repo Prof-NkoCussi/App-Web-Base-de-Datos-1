@@ -37,7 +37,7 @@
   --punto-rojo: #FF5F57; --punto-amarillo: #FEBC2E; --punto-verde: #28C840;
 
   /* Código en pantalla (fondo --consola-fondo; todos 5:1 o más) */
-  --consola-fondo: #1E293B; --cod-texto: #E2E8F0;
+  --consola-fondo: #1E293B; --cod-texto: #E2E8F0; --consola-linea: #334155;
   --cod-etq: #FB7185;  /* rosa: palabras clave (MIENTRAS, SI, SELECT…) */
   --cod-atr: #A3E635;  /* lima: nombres de campos y tablas */
   --cod-str: #FDE047;  /* amarillo: textos entre comillas */
@@ -351,7 +351,10 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .grupo--planilla .ico { --ac: var(--planilla); }
 .grupo--naranja { --grupo: var(--naranja); --grupo-claro: var(--naranja-claro); }
 .grupo--naranja .ico { --ac: var(--naranja); }
+.grupo--ok { --grupo: var(--ok); --grupo-claro: var(--ok-claro); }
+.grupo--ok .ico { --ac: var(--ok); }
 .comparar .grupo { box-shadow: inset 0 5px 0 var(--grupo); }
+.comparar .grupo--ok, .comparar .grupo--naranja { background: var(--grupo-claro); }   /* TP3: ventaja / desventaja */
 .cuando .grupo { box-shadow: inset 5px 0 0 var(--grupo); }
 .tabla-comp thead th.grupo { background: var(--grupo-claro); }
 .tabla-comp thead th:first-child { background: var(--panel-oscuro); }
@@ -538,18 +541,33 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 /* ==========================================================
    TP3: archivos de texto, separadores y pseudocódigo
    ========================================================== */
+/* Código dentro del texto: fondo claro, texto y borde de su color
+   (el borde va con box-shadow para no cambiar el ancho) */
 code {
-  font-family: var(--fuente-mono); font-size: .9em; color: var(--tinta);
-  background: var(--blanco); border-radius: 4px; padding: 1px 5px; white-space: pre;
+  font-family: var(--fuente-mono); font-size: .9em; white-space: pre;
+  border-radius: 4px; padding: 1px 5px;
+  background: var(--acento-suave); color: var(--acento-texto); box-shadow: inset 0 0 0 1px var(--acento-claro);
+}
+code.cod-archivo { background: var(--archivo-claro); color: var(--archivo-texto); box-shadow: inset 0 0 0 1px var(--archivo-linea); }
+code.cod-formula { background: var(--planilla-suave); color: var(--planilla-texto); box-shadow: inset 0 0 0 1px var(--planilla-claro); }
+code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow: inset 0 0 0 1px var(--sql-claro); }
+
+/* Ventanas: los tres puntos de color delante del nombre */
+.archivo__nombre::before, .ventana-cod__barra::before {
+  content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%;
+  background: var(--punto-rojo); box-shadow: 12px 0 var(--punto-amarillo), 24px 0 var(--punto-verde);
+  margin-right: 24px;
 }
 
 /* Ventana de un archivo (nombre arriba, contenido en monoespaciado) */
 .archivo {
   width: fit-content; max-width: 100%; margin: 0;
   background: var(--blanco); border: 1.5px solid var(--linea); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .6);
 }
 .archivo__nombre {
-  background: var(--tinta); color: var(--blanco);
+  display: flex; align-items: center; gap: 8px;
+  background: var(--tinta); color: var(--blanco); box-shadow: inset 0 3px 0 var(--archivo);
   font-family: var(--fuente-mono); font-size: 13px; font-weight: 600; padding: 4px 12px;
 }
 .archivo__txt {
@@ -566,7 +584,8 @@ code {
   background-image: radial-gradient(circle, var(--gris) 0 1.4px, transparent 1.9px);
   background-size: 1ch 100%; background-repeat: repeat-x;
 }
-.sep { background: var(--acento); color: var(--tinta); border-radius: 3px; font-weight: 700; }
+/* el separador es "el otro grupo" del esquema: va en naranja */
+.sep { background: var(--naranja-texto); color: var(--blanco); border-radius: 3px; font-weight: 700; }
 
 /* Archivo + explicación (una columna en el celular, dos en pantalla ancha) */
 .archivo-ej { display: grid; gap: 12px; align-items: start; }
@@ -581,32 +600,49 @@ code {
 .glifo { width: 48px; text-align: center; flex: none; }
 .glifo--bajo { transform: translateY(-.24em); }   /* coma y punto y coma: subirlos al centro */
 .glifo--alto { transform: translateY(.26em); }    /* comillas: bajarlas al centro */
+.tipo__valor--sep { color: var(--naranja-texto); }
+.ico--sep { --ac: var(--naranja); }
 .comun code, .cuando code { display: block; width: fit-content; margin-top: 3px; }
-.comun code { background: var(--panel); }
 .comun--suelto li { background: var(--panel); }
 .sin-raya + .texto { margin-top: 8px; }
 
+/* Ventana de código (pseudocódigo; en el TP9, SQL con .ventana-cod--sql) */
+.ventana-cod {
+  background: var(--consola-fondo); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .6);
+}
+.ventana-cod__barra {
+  display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+  font-family: var(--fuente-mono); font-size: 12px; font-weight: 600; color: var(--cod-com);
+  border-bottom: 1px solid var(--consola-linea);
+}
+.ventana-cod--sql .ventana-cod__barra { box-shadow: inset 0 3px 0 var(--sql); }
+/* colores del código */
+.ventana-cod b, .t-etq { color: var(--cod-etq); }
+.t-atr { color: var(--cod-atr); }
+.t-str { color: var(--cod-str); }
+.t-com { color: var(--cod-com); font-style: italic; }
+.t-num { color: var(--cod-num); }
+.t-fun { color: var(--cod-fun); }
+
 /* Pseudocódigo con número de línea */
 .pseudo {
-  counter-reset: ln; display: grid;
-  background: var(--blanco); border-radius: 8px; padding: 8px 0;
-  font-family: var(--fuente-mono); font-size: 14px; line-height: 1.45; color: var(--tinta);
+  counter-reset: ln; display: grid; padding: 8px 0;
+  font-family: var(--fuente-mono); font-size: 14px; line-height: 1.45; color: var(--cod-texto);
 }
 .pseudo li { counter-increment: ln; display: flex; align-items: baseline; gap: 10px; padding: 1px 10px 1px 0; }
 .pseudo li::before {
   content: counter(ln); flex: none; width: 2.4em; padding-right: .6em; text-align: right;
-  color: var(--gris); border-right: 2px solid var(--panel-linea);
+  color: var(--cod-com); border-right: 2px solid var(--consola-linea);
 }
 .pseudo__c { flex: 1; min-width: 0; }
 .pseudo .i1 .pseudo__c { padding-left: 2ch; }
 .pseudo .i2 .pseudo__c { padding-left: 4ch; }
 .pseudo b { font-weight: 700; }
-.pseudo__com { color: var(--gris); }
 .pseudo__paso {
   flex: none; font-family: var(--fuente); font-size: 12px; font-weight: 700; letter-spacing: .04em;
   background: var(--acento); color: var(--tinta); border-radius: 999px; padding: 1px 8px;
 }
-.pf__caja code { background: var(--panel); }
 .act__items .archivo { margin-top: 8px; }
 /* Actividad con un archivo al costado de las consignas (en pantalla ancha) */
 .act__cuerpo { display: grid; gap: 0 14px; align-items: start; }
@@ -781,7 +817,8 @@ code {
   .tabla-campos { font-size: 17px; }
   .tabla-campos td, .tabla-campos tbody th { padding: 7px 8px; }
   .lista-txt { font-size: 17px; }
-  .pseudo { font-size: 15.5px; }
+  .pseudo { font-size: 15px; line-height: 1.4; padding: 6px 0; }
+  .ventana-cod__barra { padding: 4px 12px; }
   .act .archivo__txt { font-size: 14.5px; line-height: 1.5; padding: 6px 12px 8px; }
   .comun--suelto { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .comun--suelto li { padding: 10px 12px; gap: 10px; font-size: 18px; }
@@ -802,6 +839,16 @@ code {
     break-after: page; page-break-after: always;
   }
   .lamina:last-child { break-after: auto; page-break-after: auto; }
+
+  /* Código en papel: fondo claro, barra en blanco y sin sombras */
+  :root {
+    --consola-fondo: #F1F5F9; --consola-linea: var(--linea); --cod-texto: var(--tinta);
+    --cod-etq: #BE123C; --cod-atr: #3F6212; --cod-str: #854D0E; --cod-com: #475569; --cod-num: #7E22CE; --cod-fun: #0E7490;
+  }
+  .archivo, .ventana-cod { box-shadow: none; }
+  .ventana-cod { border: 1.5px solid var(--linea); }
+  .ventana-cod__barra { background: var(--blanco); }
+  .archivo__nombre { background: var(--blanco); color: var(--tinta); border-bottom: 1px solid var(--linea); }
 }
 
 /* ==========================================================
