@@ -10,7 +10,7 @@
   <link rel="preload" href="../assets/fonts/barlow-semi-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
-<body data-tp="1">
+<body data-tp="1" class="modulo-1">
 
 <!-- ====== Íconos (SVG simples, rehechos a partir del PDF) ====== -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -427,14 +427,14 @@
     </div>
 
     <ul class="comparar">
-      <li><div><h3>Hoja de cálculo</h3><p>Ideal para organizar y calcular datos simples.</p></div><svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-planilla"/></svg></li>
-      <li><div><h3>Base de datos</h3><p>Pensada para almacenar, relacionar y administrar grandes cantidades de datos.</p></div><svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-db-engranaje"/></svg></li>
+      <li class="grupo grupo--planilla"><div><h3>Hoja de cálculo</h3><p>Ideal para organizar y calcular datos simples.</p></div><svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-planilla"/></svg></li>
+      <li class="grupo"><div><h3>Base de datos</h3><p>Pensada para almacenar, relacionar y administrar grandes cantidades de datos.</p></div><svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-db-engranaje"/></svg></li>
     </ul>
 
     <table class="tabla-comp">
       <caption class="sr-only">Comparación entre una hoja de cálculo y una base de datos</caption>
       <thead>
-        <tr><th scope="col">Aspecto</th><th scope="col">Hoja de cálculo</th><th scope="col">Base de datos</th></tr>
+        <tr><th scope="col">Aspecto</th><th scope="col" class="grupo grupo--planilla">Hoja de cálculo</th><th scope="col" class="grupo">Base de datos</th></tr>
       </thead>
       <tbody>
         <tr><th scope="row"><span><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-objetivo"/></svg>Uso ideal</span></th><td>listas y cálculos</td><td>muchos datos relacionados</td></tr>
@@ -449,8 +449,8 @@
     <section aria-labelledby="c4">
       <h3 class="subtitulo sin-raya" id="c4">¿Cuándo conviene cada una?</h3>
       <ul class="cuando">
-        <li><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-hoja"/></svg><span>Para una lista simple de gastos, una hoja de cálculo puede alcanzar.</span></li>
-        <li><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-tienda"/></svg><span>Para una tienda con clientes, productos y ventas, conviene una base de datos.</span></li>
+        <li class="grupo grupo--planilla"><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-hoja"/></svg><span>Para una lista simple de gastos, una hoja de cálculo puede alcanzar.</span></li>
+        <li class="grupo"><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-tienda"/></svg><span>Para una tienda con clientes, productos y ventas, conviene una base de datos.</span></li>
       </ul>
     </section>
 

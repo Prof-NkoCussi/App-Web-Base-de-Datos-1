@@ -46,6 +46,7 @@
   --cod-fun: #67E8F9;  /* cian: acciones (abrir, leer, mostrar) y funciones */
 
   --panel: #EEF2F5;         /* recuadros grises */
+  --panel-oscuro: #DDE3E9;  /* gris un tono más oscuro (encabezado neutro de una tabla) */
   --panel-linea: #C9E9EE;   /* divisor dentro de recuadros */
   --blanco: #FFFFFF;
   --tinta: #111827;         /* títulos e íconos */
@@ -342,6 +343,16 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   font-size: 16.5px; line-height: 1.35;
 }
 .sin-raya::after { display: none; }
+
+/* Dos grupos en un mismo esquema: el primero con el acento del módulo (.grupo) y el segundo
+   en naranja (.grupo--naranja); en el TP1 el segundo es la hoja de cálculo (.grupo--planilla) */
+.grupo { --grupo: var(--acento); --grupo-claro: var(--acento-claro); }
+.grupo--planilla { --grupo: var(--planilla); --grupo-claro: var(--planilla-claro); }
+.grupo--planilla .ico { --ac: var(--planilla); }
+.comparar .grupo { box-shadow: inset 0 5px 0 var(--grupo); }
+.cuando .grupo { box-shadow: inset 5px 0 0 var(--grupo); }
+.tabla-comp thead th.grupo { background: var(--grupo-claro); }
+.tabla-comp thead th:first-child { background: var(--panel-oscuro); }
 
 /* Tabla de ejemplo con señalamientos (Tabla · Fila · Columna) */
 .senalada { display: grid; gap: 12px; }
