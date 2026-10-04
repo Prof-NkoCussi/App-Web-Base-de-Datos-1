@@ -585,7 +585,10 @@ code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow
   background-size: 1ch 100%; background-repeat: repeat-x;
 }
 /* el separador es "el otro grupo" del esquema: va en naranja */
-.sep { background: var(--naranja-texto); color: var(--blanco); border-radius: 3px; font-weight: 700; }
+.sep {
+  background: var(--naranja-texto); color: var(--blanco); border-radius: 3px; font-weight: 700;
+  padding: 0 .2em; margin: 0 .2em;   /* aire visual a cada lado: no son espacios del archivo */
+}
 
 /* Archivo + explicación (una columna en el celular, dos en pantalla ancha) */
 .archivo-ej { display: grid; gap: 12px; align-items: start; }
@@ -821,8 +824,9 @@ code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow
   .ventana-cod__barra { padding: 4px 12px; }
   .act .archivo__txt { font-size: 14.5px; line-height: 1.5; padding: 6px 12px 8px; }
   .comun--suelto { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .comun--suelto li { padding: 10px 12px; gap: 10px; font-size: 18px; }
-  .comun--suelto .glifo, .comun--suelto .ico { width: 40px; }
+  .comun--suelto li { padding: 10px 10px 10px 12px; gap: 8px; font-size: 18px; }
+  .comun--suelto .glifo, .comun--suelto .ico { width: 34px; }
+  .comun--suelto code { font-size: 15px; }
 }
 
 /* ==========================================================
