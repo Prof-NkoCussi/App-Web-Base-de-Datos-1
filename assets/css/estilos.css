@@ -16,11 +16,35 @@
 
 /* ---------- Paleta (detectada del PDF) ---------- */
 :root {
-  /* Identidad del cuadernillo */
-  --cian: #26C6D4;          /* acento: íconos, barras, flechas, recuadros */
-  --cian-numero: #05A2B4;   /* número de cada título (ajustado: 3:1 sobre blanco) */
-  --cian-claro: #CDEFF4;    /* encabezados de tarjetas */
-  --cian-suave: #E2F5F8;    /* fondo de "Idea clave" */
+  /* Identidad del cuadernillo. El acento es el cian del Módulo 1;
+     .modulo-2 y .modulo-3 lo cambian por el color de su módulo */
+  --conceptos: #26C6D4;     /* cian del Módulo 1 (también en la franja del Integrador) */
+  --acento: var(--conceptos); /* acento: íconos, barras, flechas, recuadros */
+  --acento-numero: #05A2B4; /* número de cada título (ajustado: 3:1 sobre blanco) */
+  --acento-claro: #CDEFF4;  /* encabezados de tarjetas */
+  --acento-suave: #E2F5F8;  /* fondo de "Idea clave" */
+  /* Texto de color sobre blanco o sobre el tono claro (el cian de acento no sirve para texto chico) */
+  --acento-texto: #0B6B7A;  /* 6,2:1 */
+
+  /* Colores con significado propio */
+  --planilla: #A78BFA; --planilla-numero: #7C3AED; --planilla-texto: #6D28D9; --planilla-claro: #DDD6FE; --planilla-suave: #EDE9FE;
+  --sql: #60A5FA;      --sql-numero: #2563EB;      --sql-texto: #1D4ED8;      --sql-claro: #BFDBFE;      --sql-suave: #DBEAFE;
+  --archivo: #F59E0B;  --archivo-texto: #92400E;   --archivo-claro: #FEF3C7;  --archivo-linea: #FDE68A;
+  --naranja: #EA580C;  --naranja-texto: #C2410C;   --naranja-claro: #FFEDD5;
+  --ok: #15803D;       --ok-oscuro: #166534;       --ok-claro: #DCFCE7;
+
+  /* Ventanas: los tres puntos */
+  --punto-rojo: #FF5F57; --punto-amarillo: #FEBC2E; --punto-verde: #28C840;
+
+  /* Código en pantalla (fondo --consola-fondo; todos 5:1 o más) */
+  --consola-fondo: #1E293B; --cod-texto: #E2E8F0;
+  --cod-etq: #FB7185;  /* rosa: palabras clave (MIENTRAS, SI, SELECT…) */
+  --cod-atr: #A3E635;  /* lima: nombres de campos y tablas */
+  --cod-str: #FDE047;  /* amarillo: textos entre comillas */
+  --cod-com: #94A3B8;  /* gris azulado, en cursiva: comentarios */
+  --cod-num: #C084FC;  /* violeta: números */
+  --cod-fun: #67E8F9;  /* cian: acciones (abrir, leer, mostrar) y funciones */
+
   --panel: #EEF2F5;         /* recuadros grises */
   --panel-linea: #C9E9EE;   /* divisor dentro de recuadros */
   --blanco: #FFFFFF;
@@ -34,7 +58,7 @@
   --foco: #1E3A8A;          /* contorno de foco del teclado */
 
   /* TP3: campos alternados dentro de un archivo de texto */
-  --campo-a: var(--cian-claro);
+  --campo-a: var(--acento-claro);
   --campo-b: #DDE3E9;
 
   --radio: 10px;
@@ -43,6 +67,11 @@
   --fuente-titular: "Barlow Condensed", "Barlow Semi Condensed", system-ui, sans-serif;
   --fuente-mono: ui-monospace, "Cascadia Mono", Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+/* Acento por módulo: clase en el <body> de cada TP (o en cada bloque de la portada).
+   modulo-1 no cambia nada: usa el cian de :root */
+.modulo-2 { --acento: var(--planilla); --acento-numero: var(--planilla-numero); --acento-texto: var(--planilla-texto); --acento-claro: var(--planilla-claro); --acento-suave: var(--planilla-suave); --panel-linea: var(--planilla-claro); }
+.modulo-3 { --acento: var(--sql); --acento-numero: var(--sql-numero); --acento-texto: var(--sql-texto); --acento-claro: var(--sql-claro); --acento-suave: var(--sql-suave); --panel-linea: var(--sql-claro); }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
@@ -77,7 +106,7 @@ a { color: inherit; }
 .ico {
   width: 48px; height: 48px; flex: none;
   color: var(--tinta);
-  --ac: var(--cian);
+  --ac: var(--acento);
   fill: none; stroke: currentColor; stroke-width: 2.6;
   stroke-linecap: round; stroke-linejoin: round;
 }
@@ -130,7 +159,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   padding: 6px 12px; border-radius: 999px;
   background: var(--panel); color: var(--tinta);
 }
-.partes a[aria-current="true"] { background: var(--cian-claro); box-shadow: inset 0 -3px 0 var(--cian); }
+.partes a[aria-current="true"] { background: var(--acento-claro); box-shadow: inset 0 -3px 0 var(--acento); }
 
 /* ==========================================================
    Lámina (una página del cuadernillo)
@@ -162,7 +191,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .cab__marca span { font-size: 11px; letter-spacing: .22em; color: var(--gris); }
 .cab__lema { margin-left: auto; text-align: right; line-height: 1.15; }
 /* barra vertical del alto del bloque de texto (2 renglones de .cab__marca) */
-.cab__raya { width: 5px; height: 29px; background: var(--cian); flex: none; }
+.cab__raya { width: 5px; height: 29px; background: var(--acento); flex: none; }
 .cab__marca + .cab__raya { margin-left: auto; }
 @media (max-width: 479px) {
   .cab { gap: 10px; }
@@ -181,7 +210,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   font-size: clamp(34px, 9.6vw, 56px); line-height: 1; letter-spacing: -.008em;
   color: var(--tinta);
 }
-.tit__num { color: var(--cian-numero); font-weight: 800; margin-right: .12em; }
+.tit__num { color: var(--acento-numero); font-weight: 800; margin-right: .12em; }
 .tit__sub {
   margin-top: 4px;
   font-family: var(--fuente-titulo); font-weight: 600;
@@ -201,7 +230,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   line-height: 1.15;
 }
 .subtitulo::after {
-  content: ""; display: block; width: 40px; height: 5px; margin-top: 6px; background: var(--cian);
+  content: ""; display: block; width: 40px; height: 5px; margin-top: 6px; background: var(--acento);
 }
 .panel__cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .panel__nota {
@@ -224,7 +253,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .secuencia > li { position: relative; }
 .secuencia > li:not(:last-child)::after {
   content: ""; position: absolute; left: 50%; bottom: -21px;
-  width: 18px; height: 16px; background: var(--cian);
+  width: 18px; height: 16px; background: var(--acento);
   clip-path: polygon(0 32%, 52% 32%, 52% 0, 100% 50%, 52% 100%, 52% 68%, 0 68%);
   transform: translateX(-50%) rotate(90deg);
 }
@@ -246,7 +275,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 }
 .tarjeta__cab {
   align-self: stretch;
-  background: var(--cian-claro); border-radius: 6px;
+  background: var(--acento-claro); border-radius: 6px;
   font-family: var(--fuente); font-weight: 700; font-size: 18px; color: var(--tinta);
   padding: 6px 8px;
 }
@@ -299,7 +328,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   background: var(--panel); border-radius: 6px; padding: 9px 6px;
   font-size: 15px; line-height: 1.2; text-align: center; font-weight: 400;
 }
-.tabla-comp thead th { background: var(--cian-claro); font-weight: 700; color: var(--tinta); font-size: 16px; }
+.tabla-comp thead th { background: var(--acento-claro); font-weight: 700; color: var(--tinta); font-size: 16px; }
 .tabla-comp thead th:first-child, .tabla-comp tbody th { width: 36%; }
 .tabla-comp tbody th { text-align: left; font-weight: 700; color: var(--tinta); }
 .tabla-comp tbody th span { display: flex; align-items: center; gap: 8px; }
@@ -321,19 +350,19 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   background: var(--blanco); font-size: 16px; line-height: 1.2; text-align: center;
 }
 .tabla-ej caption {
-  background: var(--cian); color: var(--tinta); border-radius: 8px 8px 0 0;
+  background: var(--acento); color: var(--tinta); border-radius: 8px 8px 0 0;
   font-weight: 700; font-size: 19px; letter-spacing: .05em; padding: 5px;
 }
-.tabla-ej th { background: var(--cian-claro); color: var(--tinta); font-weight: 700; padding: 7px 4px; }
+.tabla-ej th { background: var(--acento-claro); color: var(--tinta); font-weight: 700; padding: 7px 4px; }
 .tabla-ej td { padding: 6px 4px; border-top: 1px solid var(--linea); }
 .tabla-ej th + th, .tabla-ej td + td { border-left: 1px solid var(--linea); }
-.tabla-ej .marca-col { border: 3px solid var(--cian); background: var(--cian-suave); }
-.tabla-ej .marca-fila { border: 3px solid var(--cian); }
-.tabla-ej .marca-fila td { background: var(--cian-claro); }
+.tabla-ej .marca-col { border: 3px solid var(--acento); background: var(--acento-suave); }
+.tabla-ej .marca-fila { border: 3px solid var(--acento); }
+.tabla-ej .marca-fila td { background: var(--acento-claro); }
 .senal { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 10px; }
 .senal b {
   position: relative; justify-self: start;
-  background: var(--cian); color: var(--tinta); border-radius: 6px;
+  background: var(--acento); color: var(--tinta); border-radius: 6px;
   font-weight: 700; font-size: 16px; padding: 4px 12px;
 }
 .senal p { font-size: 15px; line-height: 1.3; }
@@ -347,7 +376,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .entidades .tarjeta { gap: 6px; padding-bottom: 10px; }
 .tarjeta .tarjeta__rotulo { font-size: 16px; }
 .chips { align-self: stretch; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 4px; }
-.chips li { background: var(--cian-suave); border-radius: 6px; padding: 5px 4px; font-size: 16px; text-align: center; }
+.chips li { background: var(--acento-suave); border-radius: 6px; padding: 5px 4px; font-size: 16px; text-align: center; }
 
 /* ¿Cómo reconocerlos? (dos definiciones con ejemplo) */
 .reconocer { display: grid; gap: 10px; }
@@ -361,8 +390,8 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   font-family: var(--fuente-titular); font-weight: 800; font-size: 44px; line-height: 48px;
   letter-spacing: .03em; color: var(--tinta);
 }
-.tipo__valor--cian { color: var(--cian-numero); }
-.tipo__valor span { color: var(--cian); }
+.tipo__valor--acento { color: var(--acento-numero); }
+.tipo__valor span { color: var(--acento); }
 
 /* Tabla con datos dentro de una actividad */
 .act-tabla caption { text-align: left; font-weight: 700; letter-spacing: .05em; color: var(--tinta); padding-bottom: 4px; }
@@ -373,7 +402,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .pf-grid { display: grid; gap: 12px; }
 .pf {
   display: grid; gap: 8px;
-  background: var(--panel); border-radius: 12px; border-left: 6px solid var(--cian);
+  background: var(--panel); border-radius: 12px; border-left: 6px solid var(--acento);
   padding: 14px 14px 14px 16px;
 }
 .pf__etiqueta { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gris); }
@@ -384,18 +413,18 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .pf__caja { background: var(--blanco); border-radius: 8px; padding: 10px 12px; display: grid; gap: 6px; }
 .pf__caja h4 {
   font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gris);
-  padding-bottom: 5px; border-bottom: 3px solid var(--cian); justify-self: start;
+  padding-bottom: 5px; border-bottom: 3px solid var(--acento); justify-self: start;
 }
 .pf__lista { display: grid; gap: 5px; }
 .pf__lista li { position: relative; padding-left: 16px; }
-.pf__lista li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--cian); border-radius: 2px; }
+.pf__lista li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--acento); border-radius: 2px; }
 
 /* Idea clave */
 .idea {
   display: grid; grid-template-columns: 64px 1fr; align-items: stretch;
-  background: var(--cian-suave); border-radius: var(--radio); overflow: hidden;
+  background: var(--acento-suave); border-radius: var(--radio); overflow: hidden;
 }
-.idea__ico { display: flex; align-items: center; justify-content: center; background: var(--cian); }
+.idea__ico { display: flex; align-items: center; justify-content: center; background: var(--acento); }
 .idea__ico .ico { color: var(--blanco); --ac: rgba(255, 255, 255, .45); width: 40px; height: 40px; }
 .idea p { padding: 12px 14px; font-size: 16.5px; line-height: 1.35; align-self: center; }
 .idea strong { font-family: var(--fuente-titulo); font-size: 21px; margin-right: 4px; }
@@ -416,7 +445,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
    ========================================================== */
 .act-banda {
   display: flex; align-items: center; gap: 14px;
-  background: var(--cian); color: var(--tinta);
+  background: var(--acento); color: var(--tinta);
   border-radius: var(--radio); padding: 12px 16px;
 }
 .act-banda .ico { --ac: var(--blanco); width: 40px; height: 40px; }
@@ -428,7 +457,7 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   padding-left: 12px; border-left: 1.5px solid rgba(17, 24, 39, .35);
 }
 .consigna {
-  background: var(--cian-suave); border-radius: var(--radio);
+  background: var(--acento-suave); border-radius: var(--radio);
   padding: 12px 16px; font-size: 16.5px; line-height: 1.4;
 }
 .consigna strong { font-family: var(--fuente-titulo); font-size: 19px; margin-right: 2px; }
@@ -443,10 +472,10 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .act__num {
   flex: none; display: inline-flex; align-items: center; justify-content: center;
   min-width: 34px; height: 30px; padding: 0 6px; border-radius: 7px;
-  background: var(--cian); color: var(--tinta);
+  background: var(--acento); color: var(--tinta);
   font-family: var(--fuente-titular); font-weight: 800; font-size: 21px;
 }
-.act__caso { margin-top: 9px; font-size: 16px; line-height: 1.4; padding-left: 12px; border-left: 3px solid var(--cian); }
+.act__caso { margin-top: 9px; font-size: 16px; line-height: 1.4; padding-left: 12px; border-left: 3px solid var(--acento); }
 .act__items { margin-top: 9px; display: grid; gap: 6px; }
 .act__items > li {
   display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start;
@@ -454,19 +483,40 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
   font-size: 16px; line-height: 1.38;
 }
 .act__letra {
-  background: var(--cian-claro); border-radius: 6px; text-align: center;
+  background: var(--acento-claro); border-radius: 6px; text-align: center;
   font-weight: 700; color: var(--tinta); font-size: 15px; line-height: 1.5;
 }
 .act__frases { margin-top: 5px; display: grid; gap: 3px; }
 .act__frases li { position: relative; padding-left: 16px; }
-.act__frases li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--cian); border-radius: 2px; }
+.act__frases li::before { content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; background: var(--acento); border-radius: 2px; }
 .act-tabla {
   width: calc(100% + 40px); margin: 7px 0 0 -40px;   /* en el celular ocupa todo el ancho del ítem */
   border-collapse: collapse; table-layout: auto; font-size: 12.5px;
 }
 .act-tabla th, .act-tabla td { border: 1.5px solid var(--linea); padding: 5px 4px; text-align: left; height: 30px; }
-.act-tabla thead th { background: var(--cian-claro); font-weight: 700; color: var(--tinta); text-align: center; }
+.act-tabla thead th { background: var(--acento-claro); font-weight: 700; color: var(--tinta); text-align: center; }
 .act-tabla tbody th { font-weight: 600; color: var(--tinta); }
+
+/* Parte 2 · en la computadora (solo TPs prácticos: 4, 5, 9 e integrador) */
+.lamina--compu .act-banda { background: var(--ok); color: var(--blanco); }
+.lamina--compu .act-banda .ico { color: var(--blanco); --ac: var(--ok-oscuro); }
+.lamina--compu .act-banda__parte { border-left-color: rgba(255, 255, 255, .5); }
+.lamina--compu .act__num { background: var(--ok); color: var(--blanco); }
+.lamina--compu .act__letra, .lamina--compu .consigna { background: var(--ok-claro); }
+
+/* Recuadros "Importante" y "Recomendación" (solo en láminas nuevas y "Para profundizar") */
+.nota { display: grid; gap: 4px; border-radius: var(--radio); padding: 12px 14px 12px 18px; }
+.nota h3 { font-family: var(--fuente-titulo); font-weight: 700; font-size: 19px; line-height: 1.2; }
+.nota p { font-size: 16px; line-height: 1.4; }
+.nota--importante { background: var(--naranja-claro); box-shadow: inset 4px 0 0 var(--naranja); }
+.nota--importante h3 { color: var(--naranja-texto); }
+.nota--importante .tit-ico { --ac: var(--naranja-texto); }
+.nota--consejo, .pf__caja--consejo { background: var(--ok-claro); box-shadow: inset 4px 0 0 var(--ok); }
+.pf__caja--consejo { padding-left: 16px; }
+.nota--consejo h3, .pf__caja--consejo h4 { color: var(--ok); }
+.pf__caja--consejo h4 { border-bottom-color: var(--ok); }
+.nota--consejo .tit-ico, .pf__caja--consejo .tit-ico { --ac: var(--ok); }
+.tit-ico { display: inline-block; width: 1.2em; height: 1.2em; margin-right: 6px; vertical-align: -.25em; }
 
 /* ==========================================================
    TP3: archivos de texto, separadores y pseudocódigo
@@ -499,7 +549,7 @@ code {
   background-image: radial-gradient(circle, var(--gris) 0 1.4px, transparent 1.9px);
   background-size: 1ch 100%; background-repeat: repeat-x;
 }
-.sep { background: var(--cian); color: var(--tinta); border-radius: 3px; font-weight: 700; }
+.sep { background: var(--acento); color: var(--tinta); border-radius: 3px; font-weight: 700; }
 
 /* Archivo + explicación (una columna en el celular, dos en pantalla ancha) */
 .archivo-ej { display: grid; gap: 12px; align-items: start; }
@@ -537,7 +587,7 @@ code {
 .pseudo__com { color: var(--gris); }
 .pseudo__paso {
   flex: none; font-family: var(--fuente); font-size: 12px; font-weight: 700; letter-spacing: .04em;
-  background: var(--cian); color: var(--tinta); border-radius: 999px; padding: 1px 8px;
+  background: var(--acento); color: var(--tinta); border-radius: 999px; padding: 1px 8px;
 }
 .pf__caja code { background: var(--panel); }
 .act__items .archivo { margin-top: 8px; }
@@ -578,7 +628,7 @@ code {
   .senal--fila, .senal--tabla { grid-template-columns: 1fr; }
   .senal--tabla b { justify-self: center; }
   .senal--tabla p { text-align: center; }
-  .senal b::after { content: ""; position: absolute; background: var(--cian); width: 14px; height: 14px; }
+  .senal b::after { content: ""; position: absolute; background: var(--acento); width: 14px; height: 14px; }
   .senal--fila b::after { right: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(0 0, 100% 50%, 0 100%); }
   .senal--tabla b::after { left: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(100% 0, 0 50%, 100% 100%); }
   .senal--col b::after { left: 50%; top: -15px; transform: translateX(-50%); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
@@ -749,7 +799,7 @@ code {
   font-family: var(--fuente-titular); font-weight: 800;
   font-size: clamp(38px, 11vw, 64px); line-height: .98; color: var(--tinta); letter-spacing: -.015em;
 }
-.portada__hero h1 span { color: var(--cian-numero); }
+.portada__hero h1 span { color: var(--acento-numero); }
 .portada__hero .tit__sub { margin-top: 8px; }
 .portada__datos { font-size: 15px; color: var(--gris); line-height: 1.5; }
 .portada__datos strong { color: var(--tinta); }
@@ -761,18 +811,32 @@ code {
   background: var(--panel); border-radius: var(--radio); padding: 12px 14px;
   text-decoration: none; color: var(--texto);
   border: 2px solid transparent;
+  box-shadow: inset 6px 0 0 var(--acento);   /* franja del color del módulo */
 }
-a.tp:hover { border-color: var(--cian); }
+a.tp:hover { border-color: var(--acento); }
 .tp__num {
   grid-row: span 3;
   font-family: var(--fuente-titular); font-weight: 800; font-size: 28px; line-height: 1;
-  color: var(--cian-numero); min-width: 2.2ch;
+  color: var(--acento-numero); min-width: 2.2ch;
 }
 .tp__titulo { font-weight: 700; font-size: 17px; color: var(--tinta); }
 .tp__temas { font-size: 14.5px; line-height: 1.35; }
 .tp__meta { font-size: 12.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gris); }
 .tp--pronto { opacity: .62; }
-.tp--integrador { background: var(--cian-suave); }
+/* Integrador: franja con los tres colores de módulo, en bandas con corte neto */
+.tp--integrador {
+  box-shadow: none;
+  background: linear-gradient(var(--conceptos) 0 33.34%, var(--planilla) 0 66.67%, var(--sql) 0) left / 6px 100% no-repeat, var(--acento-suave);
+}
+/* Etiquetas de la herramienta que se usa (Archivos, Planilla, XAMPP, SQL) */
+.etq {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .02em; text-transform: none;
+  padding: 1px 7px; border-radius: 999px; line-height: 1.5;
+}
+.etq--archivo  { background: var(--archivo-claro);  color: var(--archivo-texto); }
+.etq--planilla { background: var(--planilla-claro); color: var(--planilla-texto); }
+.etq--xampp    { background: var(--naranja-claro);  color: var(--naranja-texto); }
+.etq--sql      { background: var(--sql-claro);      color: var(--sql-texto); }
 .tp__visto { color: #0F766E; }
 .tp__visto[hidden] { display: none; }
 
