@@ -368,14 +368,16 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .tabla-ej td { padding: 6px 4px; border-top: 1px solid var(--linea); }
 .tabla-ej th + th, .tabla-ej td + td { border-left: 1px solid var(--linea); }
 .tabla-ej .marca-col { border: 3px solid var(--acento); background: var(--acento-suave); }
-.tabla-ej .marca-fila { border: 3px solid var(--acento); }
-.tabla-ej .marca-fila td { background: var(--acento-claro); }
+/* columna en el acento y fila en naranja (dos grupos en un mismo esquema) */
+.tabla-ej .marca-fila { border: 3px solid var(--naranja); }
+.tabla-ej .marca-fila td { background: var(--naranja-claro); }
 .senal { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 4px 10px; }
 .senal b {
   position: relative; justify-self: start;
   background: var(--acento); color: var(--tinta); border-radius: 6px;
   font-weight: 700; font-size: 16px; padding: 4px 12px;
 }
+.senal--fila b { background: var(--naranja-texto); color: var(--blanco); }
 .senal p { font-size: 15px; line-height: 1.3; }
 
 /* Grilla de 4 tarjetas (Tabla · Columna · Fila · Registro) */
@@ -640,7 +642,7 @@ code {
   .senal--tabla b { justify-self: center; }
   .senal--tabla p { text-align: center; }
   .senal b::after { content: ""; position: absolute; background: var(--acento); width: 14px; height: 14px; }
-  .senal--fila b::after { right: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .senal--fila b::after { background: var(--naranja-texto); right: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(0 0, 100% 50%, 0 100%); }
   .senal--tabla b::after { left: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(100% 0, 0 50%, 100% 100%); }
   .senal--col b::after { left: 50%; top: -15px; transform: translateX(-50%); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
   .comun { grid-template-columns: repeat(3, 1fr); }
