@@ -349,6 +349,8 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .grupo { --grupo: var(--acento); --grupo-claro: var(--acento-claro); }
 .grupo--planilla { --grupo: var(--planilla); --grupo-claro: var(--planilla-claro); }
 .grupo--planilla .ico { --ac: var(--planilla); }
+.grupo--naranja { --grupo: var(--naranja); --grupo-claro: var(--naranja-claro); }
+.grupo--naranja .ico { --ac: var(--naranja); }
 .comparar .grupo { box-shadow: inset 0 5px 0 var(--grupo); }
 .cuando .grupo { box-shadow: inset 5px 0 0 var(--grupo); }
 .tabla-comp thead th.grupo { background: var(--grupo-claro); }
@@ -390,6 +392,8 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .tarjeta .tarjeta__rotulo { font-size: 16px; }
 .chips { align-self: stretch; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 0 4px; }
 .chips li { background: var(--acento-suave); border-radius: 6px; padding: 5px 4px; font-size: 16px; text-align: center; }
+/* TP2, lámina 6: la entidad en el acento y los atributos en naranja */
+.chips.grupo li, .tarjeta.grupo .tarjeta__cab { background: var(--grupo-claro); }
 
 /* ¿Cómo reconocerlos? (dos definiciones con ejemplo) */
 .reconocer { display: grid; gap: 10px; }
