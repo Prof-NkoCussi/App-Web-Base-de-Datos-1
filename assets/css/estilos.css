@@ -25,15 +25,16 @@
   --acento-suave: #E2F5F8;  /* fondo de "Idea clave" */
   /* Texto de color sobre blanco o sobre el tono claro (el cian de acento no sirve para texto chico) */
   --acento-texto: #0B6B7A;  /* 6,2:1 */
+  /* "En la computadora" (Parte 2 de las actividades): el color del módulo, más oscuro, con texto blanco.
+     La Parte 1 (en la carpeta) usa el acento con texto oscuro. .modulo-2 y .modulo-3 los cambian */
+  --compu: var(--acento-texto); --compu-oscuro: #064650; --compu-claro: var(--acento-claro);
 
   /* Colores con significado propio */
   --planilla: #A78BFA; --planilla-numero: #7C3AED; --planilla-texto: #6D28D9; --planilla-claro: #DDD6FE; --planilla-suave: #EDE9FE; --planilla-oscuro: #4C1D95;
-  --sql: #60A5FA;      --sql-numero: #2563EB;      --sql-texto: #1D4ED8;      --sql-claro: #BFDBFE;      --sql-suave: #DBEAFE;
+  --sql: #60A5FA;      --sql-numero: #2563EB;      --sql-texto: #1D4ED8;      --sql-claro: #BFDBFE;      --sql-suave: #DBEAFE;      --sql-oscuro: #1E3A8A;
   --archivo: #F59E0B;  --archivo-texto: #92400E;   --archivo-claro: #FEF3C7;  --archivo-linea: #FDE68A;
   --naranja: #EA580C;  --naranja-texto: #C2410C;   --naranja-claro: #FFEDD5;
   --ok: #15803D;       --ok-oscuro: #166534;       --ok-claro: #DCFCE7;
-  /* "En la computadora" (Parte 2 de las actividades): verde; en el Módulo 2, violeta oscuro */
-  --compu: var(--ok);  --compu-oscuro: var(--ok-oscuro); --compu-claro: var(--ok-claro);
 
   /* Ventanas: los tres puntos */
   --punto-rojo: #FF5F57; --punto-amarillo: #FEBC2E; --punto-verde: #28C840;
@@ -75,7 +76,8 @@
    modulo-1 no cambia nada: usa el cian de :root */
 .modulo-2 { --acento: var(--planilla); --acento-numero: var(--planilla-numero); --acento-texto: var(--planilla-texto); --acento-claro: var(--planilla-claro); --acento-suave: var(--planilla-suave); --panel-linea: var(--planilla-claro);
   --compu: var(--planilla-texto); --compu-oscuro: var(--planilla-oscuro); --compu-claro: var(--planilla-claro); }
-.modulo-3 { --acento: var(--sql); --acento-numero: var(--sql-numero); --acento-texto: var(--sql-texto); --acento-claro: var(--sql-claro); --acento-suave: var(--sql-suave); --panel-linea: var(--sql-claro); }
+.modulo-3 { --acento: var(--sql); --acento-numero: var(--sql-numero); --acento-texto: var(--sql-texto); --acento-claro: var(--sql-claro); --acento-suave: var(--sql-suave); --panel-linea: var(--sql-claro);
+  --compu: var(--sql-texto); --compu-oscuro: var(--sql-oscuro); --compu-claro: var(--sql-claro); }
 
 /* ---------- Base ---------- */
 *, *::before, *::after { box-sizing: border-box; }
