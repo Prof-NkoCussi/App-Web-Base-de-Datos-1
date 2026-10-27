@@ -63,7 +63,7 @@ Reglas fijas:
 
 ## Diseño
 
-- Colores solo por variables de `:root` en `estilos.css` (ver "Colores"). Sobre `--acento`, `--planilla`, `--sql` y `--archivo` va texto oscuro (`--tinta`); sobre `--ok` y `--naranja-texto`, blanco. Nunca texto blanco sobre `--naranja`.
+- Colores solo por variables de `:root` en `estilos.css` (ver "Colores"). Sobre `--acento`, `--planilla`, `--sql` y `--archivo` va texto oscuro (`--tinta`); sobre `--ok`, `--compu`, `--planilla-texto` y `--naranja-texto`, blanco. Nunca texto blanco sobre `--naranja`.
 - El acento (`--acento`, `--acento-numero`, `--acento-claro`, `--acento-suave`, `--acento-texto`) cambia con la clase `modulo-N` del `<body>`: no usar los colores de módulo a mano.
 - Reusar las clases existentes antes de crear nuevas: `.secuencia` + `.paso`, `.panel`, `.tarjeta`, `.mosaico`, `.ambitos`, `.comun`, `.intro`, `.ejemplo`, `.comparar`, `.tabla-comp`, `.cuando`, `.idea`, `.pf`, `.act`, `.act-tabla`, `.grupo`, `.archivo`, `.ventana-cod`, `.nota`, `.etq`, `.planilla`, `.filtro-menu`, `.antes-despues`, `.instrucciones`, `.ui`, `.lado-a-lado`.
 - Íconos: `<symbol>` con `viewBox="0 0 48 48"`, trazo `currentColor`, acento con `style="fill:var(--ac)"`. Se usan con `<svg class="ico" aria-hidden="true" focusable="false"><use href="#i-nombre"/></svg>`. El sprite va inline al principio del `<body>` de cada TP (un sprite externo no funciona al abrir el archivo en local).
@@ -76,11 +76,11 @@ Cada color significa algo. Va en marcos, etiquetas, íconos y esquemas; **no** e
 | Color | Significa | Dónde |
 |---|---|---|
 | **Cian** (`--acento` por defecto) | Módulo 1 · Conceptos | TPs 1 a 3, portada |
-| **Violeta** (`--planilla…`) | Planilla de cálculo (Módulo 2) | TPs 4 y 5; cada vez que se habla de la hoja de cálculo |
+| **Violeta** (`--planilla…`) | Planilla de cálculo (Módulo 2) | TPs 4 y 5; cada vez que se habla de la hoja de cálculo. Violeta oscuro (`--planilla-texto`) con texto blanco: "En la computadora" del Módulo 2 |
 | **Azul** (`--sql…`) | Bases relacionales y SQL (Módulo 3) | TPs 6 a 9 e integrador; código SQL |
 | **Ámbar** (`--archivo…`) | Archivos de texto | Ventanas de archivo, nombres de archivo |
 | **Naranja** (`--naranja…`) | "El otro grupo" de un esquema, y los avisos "Importante" | Esquemas, recuadros |
-| **Verde** (`--ok…`) | "En la computadora" y "Recomendación" | Actividades prácticas, recuadros |
+| **Verde** (`--ok…`) | "En la computadora" (salvo en el Módulo 2) y "Recomendación" | Actividades prácticas, recuadros |
 
 - **Acento por módulo:** `modulo-1` (TPs 1–3, no cambia nada), `modulo-2` (TPs 4–5, violeta), `modulo-3` (TPs 6–9 e integrador, azul). También cambia `--panel-linea`. En la portada, la clase va en cada `section.bloque`.
 - **Texto de color** sobre blanco o tono claro: las variables `-texto` (`--acento-texto`, `--planilla-texto`, `--sql-texto`, `--archivo-texto`, `--naranja-texto`). El `--acento` solo no sirve para texto chico.
@@ -98,7 +98,8 @@ Cada color significa algo. Va en marcos, etiquetas, íconos y esquemas; **no** e
   <symbol id="i-importante" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" style="fill:var(--ac);stroke:none"/><path d="M24 12v15M24 35v.5" style="stroke:var(--blanco);stroke-width:5.5"/></symbol>
   <symbol id="i-consejo" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" style="fill:var(--ac);stroke:none"/><path d="M14 24.5l7 7 13-14" style="stroke:var(--blanco);stroke-width:5.5"/></symbol>
   ```
-- **Actividades:** Parte 1 en la carpeta, con el acento del módulo. Parte 2 en la computadora solo en los TPs prácticos (4, 5, 9 e integrador): `article.lamina--compu` (banda y números en verde con texto blanco; letras y consigna en verde claro) y la banda dice "Actividades para hacer en la computadora". Los TPs 1 a 3 tienen las dos partes en la carpeta.
+- **Actividades:** Parte 1 en la carpeta, con el acento del módulo. Parte 2 en la computadora solo en los TPs prácticos (4, 5, 9 e integrador): `article.lamina--compu` (banda y números en `--compu` con texto blanco; letras y consigna en `--compu-claro`) y la banda dice "Actividades para hacer en la computadora". Los TPs 1 a 3 tienen las dos partes en la carpeta.
+  - `--compu`, `--compu-oscuro` (ícono de la banda) y `--compu-claro` son verdes por defecto; `.modulo-2` los cambia por violeta oscuro (`--planilla-texto`, `--planilla-oscuro`, `--planilla-claro`), para diferenciarla de la Parte 1 sin salir de la paleta del módulo.
 - **Portada:** cada tarjeta `.tp` lleva una franja izquierda del color de su módulo (sale sola). Etiquetas en `.tp__meta`, antes de "Láminas", solo en los TPs que usan esa herramienta: `etq--archivo` (TP3), `etq--planilla` (TP4, TP5), `etq--xampp` y `etq--sql` (TP9, integrador). El Integrador lleva la franja con los tres colores de módulo.
 
 ## Controles antes de entregar un TP

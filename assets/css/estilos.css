@@ -27,11 +27,13 @@
   --acento-texto: #0B6B7A;  /* 6,2:1 */
 
   /* Colores con significado propio */
-  --planilla: #A78BFA; --planilla-numero: #7C3AED; --planilla-texto: #6D28D9; --planilla-claro: #DDD6FE; --planilla-suave: #EDE9FE;
+  --planilla: #A78BFA; --planilla-numero: #7C3AED; --planilla-texto: #6D28D9; --planilla-claro: #DDD6FE; --planilla-suave: #EDE9FE; --planilla-oscuro: #4C1D95;
   --sql: #60A5FA;      --sql-numero: #2563EB;      --sql-texto: #1D4ED8;      --sql-claro: #BFDBFE;      --sql-suave: #DBEAFE;
   --archivo: #F59E0B;  --archivo-texto: #92400E;   --archivo-claro: #FEF3C7;  --archivo-linea: #FDE68A;
   --naranja: #EA580C;  --naranja-texto: #C2410C;   --naranja-claro: #FFEDD5;
   --ok: #15803D;       --ok-oscuro: #166534;       --ok-claro: #DCFCE7;
+  /* "En la computadora" (Parte 2 de las actividades): verde; en el Módulo 2, violeta oscuro */
+  --compu: var(--ok);  --compu-oscuro: var(--ok-oscuro); --compu-claro: var(--ok-claro);
 
   /* Ventanas: los tres puntos */
   --punto-rojo: #FF5F57; --punto-amarillo: #FEBC2E; --punto-verde: #28C840;
@@ -71,7 +73,8 @@
 
 /* Acento por módulo: clase en el <body> de cada TP (o en cada bloque de la portada).
    modulo-1 no cambia nada: usa el cian de :root */
-.modulo-2 { --acento: var(--planilla); --acento-numero: var(--planilla-numero); --acento-texto: var(--planilla-texto); --acento-claro: var(--planilla-claro); --acento-suave: var(--planilla-suave); --panel-linea: var(--planilla-claro); }
+.modulo-2 { --acento: var(--planilla); --acento-numero: var(--planilla-numero); --acento-texto: var(--planilla-texto); --acento-claro: var(--planilla-claro); --acento-suave: var(--planilla-suave); --panel-linea: var(--planilla-claro);
+  --compu: var(--planilla-texto); --compu-oscuro: var(--planilla-oscuro); --compu-claro: var(--planilla-claro); }
 .modulo-3 { --acento: var(--sql); --acento-numero: var(--sql-numero); --acento-texto: var(--sql-texto); --acento-claro: var(--sql-claro); --acento-suave: var(--sql-suave); --panel-linea: var(--sql-claro); }
 
 /* ---------- Base ---------- */
@@ -518,11 +521,11 @@ button.boton { border: 0; font-family: inherit; line-height: inherit; cursor: po
 .act-tabla tbody th { font-weight: 600; color: var(--tinta); }
 
 /* Parte 2 · en la computadora (solo TPs prácticos: 4, 5, 9 e integrador) */
-.lamina--compu .act-banda { background: var(--ok); color: var(--blanco); }
-.lamina--compu .act-banda .ico { color: var(--blanco); --ac: var(--ok-oscuro); }
+.lamina--compu .act-banda { background: var(--compu); color: var(--blanco); }
+.lamina--compu .act-banda .ico { color: var(--blanco); --ac: var(--compu-oscuro); }
 .lamina--compu .act-banda__parte { border-left-color: rgba(255, 255, 255, .5); }
-.lamina--compu .act__num { background: var(--ok); color: var(--blanco); }
-.lamina--compu .act__letra, .lamina--compu .consigna { background: var(--ok-claro); }
+.lamina--compu .act__num { background: var(--compu); color: var(--blanco); }
+.lamina--compu .act__letra, .lamina--compu .consigna { background: var(--compu-claro); }
 
 /* Recuadros "Importante" y "Recomendación" (solo en láminas nuevas y "Para profundizar") */
 .nota { display: grid; gap: 4px; border-radius: var(--radio); padding: 12px 14px 12px 18px; }
