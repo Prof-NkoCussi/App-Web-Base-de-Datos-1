@@ -28,6 +28,7 @@ assets/css/estilos.css   paleta en :root, mobile first, modo hoja A4
 assets/js/actividades.js botón PDF, resaltado de la barra, "✓ Visto" (localStorage)
 assets/fonts/            Barlow, Barlow Semi Condensed, Barlow Condensed (locales)
 assets/img/
+assets/datos/            CSV para descargar desde las actividades en la computadora (UTF-8, separados por coma)
 README.md                presentación del sitio + tabla de TPs con su estado
 ```
 
@@ -64,7 +65,7 @@ Reglas fijas:
 
 - Colores solo por variables de `:root` en `estilos.css` (ver "Colores"). Sobre `--acento`, `--planilla`, `--sql` y `--archivo` va texto oscuro (`--tinta`); sobre `--ok` y `--naranja-texto`, blanco. Nunca texto blanco sobre `--naranja`.
 - El acento (`--acento`, `--acento-numero`, `--acento-claro`, `--acento-suave`, `--acento-texto`) cambia con la clase `modulo-N` del `<body>`: no usar los colores de módulo a mano.
-- Reusar las clases existentes antes de crear nuevas: `.secuencia` + `.paso`, `.panel`, `.tarjeta`, `.mosaico`, `.ambitos`, `.comun`, `.intro`, `.ejemplo`, `.comparar`, `.tabla-comp`, `.cuando`, `.idea`, `.pf`, `.act`, `.act-tabla`, `.grupo`, `.archivo`, `.ventana-cod`, `.nota`, `.etq`.
+- Reusar las clases existentes antes de crear nuevas: `.secuencia` + `.paso`, `.panel`, `.tarjeta`, `.mosaico`, `.ambitos`, `.comun`, `.intro`, `.ejemplo`, `.comparar`, `.tabla-comp`, `.cuando`, `.idea`, `.pf`, `.act`, `.act-tabla`, `.grupo`, `.archivo`, `.ventana-cod`, `.nota`, `.etq`, `.planilla`, `.filtro-menu`, `.antes-despues`, `.instrucciones`, `.ui`, `.lado-a-lado`.
 - Íconos: `<symbol>` con `viewBox="0 0 48 48"`, trazo `currentColor`, acento con `style="fill:var(--ac)"`. Se usan con `<svg class="ico" aria-hidden="true" focusable="false"><use href="#i-nombre"/></svg>`. El sprite va inline al principio del `<body>` de cada TP (un sprite externo no funciona al abrir el archivo en local).
 - Mobile first. Cortes en 600 px y 860 px. El bloque `@media (min-width: 860px), print` convierte cada `.lamina` en una hoja A4 (210 × 297 mm).
 
@@ -83,11 +84,13 @@ Cada color significa algo. Va en marcos, etiquetas, íconos y esquemas; **no** e
 
 - **Acento por módulo:** `modulo-1` (TPs 1–3, no cambia nada), `modulo-2` (TPs 4–5, violeta), `modulo-3` (TPs 6–9 e integrador, azul). También cambia `--panel-linea`. En la portada, la clase va en cada `section.bloque`.
 - **Texto de color** sobre blanco o tono claro: las variables `-texto` (`--acento-texto`, `--planilla-texto`, `--sql-texto`, `--archivo-texto`, `--naranja-texto`). El `--acento` solo no sirve para texto chico.
-- **Dos grupos en un mismo esquema:** el primero con el acento (`.grupo`) y el segundo en naranja (`.grupo grupo--naranja`); si el segundo es la hoja de cálculo, violeta (`grupo--planilla`); ventaja / desventaja: `grupo--ok` / `grupo--naranja`. Los rótulos y los íconos repiten el color de lo que nombran. Fondos en el tono `-claro`; rótulo con fondo: `--acento` con `--tinta`, o `--naranja-texto` con blanco. Ya aplicado en: TP1 lám. 4 (planilla / base de datos), TP2 lám. 5 (columna / fila) y 6 (entidad / atributos), TP3 lám. 8 (ventaja / desventaja) y 9 (separador `.sep`, con aire visual a los lados: nunca espacios reales dentro de un archivo).
+- **Dos grupos en un mismo esquema:** el primero con el acento (`.grupo`) y el segundo en naranja (`.grupo grupo--naranja`); si el segundo es la hoja de cálculo, violeta (`grupo--planilla`); ventaja / desventaja: `grupo--ok` / `grupo--naranja`. Los rótulos y los íconos repiten el color de lo que nombran. Fondos en el tono `-claro`; rótulo con fondo: `--acento` con `--tinta`, o `--naranja-texto` con blanco. Ya aplicado en: TP1 lám. 4 (planilla / base de datos), TP2 lám. 5 (columna / fila) y 6 (entidad / atributos), TP3 lám. 8 (ventaja / desventaja) y 9 (separador `.sep`, con aire visual a los lados: nunca espacios reales dentro de un archivo), TP4 lám. 11 (columna / fila) y 12 (1.º y 2.º campo de orden, `.criterio`).
 - **Ventanas:**
   - Archivo: `figure.archivo` + `figcaption.archivo__nombre` (tres puntos, franja ámbar, sombra; el contenido sigue en fondo claro).
   - Código: `div.ventana-cod` > `div.ventana-cod__barra` (`aria-hidden`, con el rótulo: "pseudocódigo", "SQL"…) + el código. Para SQL, `ventana-cod--sql` (franja azul). Colores: `<b>` o `.t-etq` palabras clave, `.t-fun` acciones y funciones, `.t-str` textos entre comillas, `.t-atr` campos y tablas, `.t-num` números, `.t-com` comentarios.
   - Consola SQL (TP9): tres puntos, título en `--cod-atr`, botón "▶ Ejecutar" en `--ok` con hover `--ok-oscuro`.
+  - Planilla (TP4 y TP5): `figure.planilla` > `figcaption.planilla__nombre` (franja violeta) + opcional `div.planilla__formula` (cuadro de nombres y fx, `aria-hidden`) + `div.planilla__marco` > `table.planilla__tabla`. Cuadrícula: fila de letras en `thead` (`td.planilla__esquina` + `th scope="col"`), número de fila en `th scope="row"`, `<caption class="sr-only">`. Clases: `tr.enc` (fila de encabezados), `td.num` (números a la derecha), `td.combinada`, `td.activa` (celda activa), `col.marca-col` / `tr.marca-fila` (columna / fila señaladas), `col.tinte` / `col.tinte--naranja` (1.º y 2.º campo de orden), `td.con-filtro` + `svg.planilla__boton` (`#i-btn-filtro`, o `#i-btn-filtrado` en el campo filtrado). Filas ocultas por un filtro: se omiten y los números de fila saltan. La lista del filtro va en `figure.filtro-menu`.
+  - Nombres de menús, opciones y botones del programa: `span.ui` (ej.: `<span class="ui">Datos</span> › <span class="ui">Crear un filtro</span>`). Pasos numerados: `ol.instrucciones`.
   - En la impresión el CSS ya las pasa a fondo claro, barra blanca y sin sombras.
 - **Código dentro del texto:** `<code>` toma el acento. Variantes: `code.cod-archivo` (nombres de archivo, también en consignas), `code.cod-formula` (planilla), `code.cod-sql`.
 - **Recuadros nuevos** (solo en láminas nuevas y "Para profundizar"; nunca en láminas del PDF): `div.nota.nota--importante` (naranja) y `div.nota.nota--consejo` o `.pf__caja--consejo` ("Recomendación", verde). El ícono va delante del título: `<h3><svg class="ico tit-ico" aria-hidden="true" focusable="false"><use href="#i-importante"/></svg>Importante</h3>`. Símbolos para el sprite del TP que los use:
@@ -125,7 +128,7 @@ Cada color significa algo. Va en marcos, etiquetas, íconos y esquemas; **no** e
 | 2 ✅ | Componentes de una tabla | 5–7 | PDF 9 (tablas, campos, registros), 10 (entidades y atributos), 11 (tipos de datos) |
 | 3 ✅ | Archivos de texto | 8–10 | (N) campos de tamaño fijo · campos con separadores (CSV) · acceso a los datos: cómo un programa lee y busca un registro |
 | **Módulo 2 · Operaciones con planilla de cálculo** | | | |
-| 4 | La planilla como base de datos | 11–13 | (N) armar la base · ordenar · filtrar |
+| 4 ✅ | La planilla como base de datos | 11–13 | (N) armar la base · ordenar · filtrar |
 | 5 | Buscar y resumir datos | 14–16 | (N) BUSCARV y BUSCARX · subtotales · tablas dinámicas |
 | **Módulo 3 · Bases de datos relacionales** | | | |
 | 6 | Software de gestión | 17–19 | PDF 5 (SGBD), 6 (gestores), 7 (relacionales y NoSQL) |
@@ -138,6 +141,6 @@ El resto del PDF (págs. 15–21, 23–24 y 28–40) pertenece a Base de Datos I
 
 ## Pendientes a consultar con Nicolás
 
-- **Antes del TP4:** qué planilla usan en la escuela (Excel y versión, LibreOffice Calc o Google Sheets). BUSCARX no existe en Excel 2019 o anterior.
+- ~~**Antes del TP4:** qué planilla usan en la escuela (Excel y versión, LibreOffice Calc o Google Sheets). BUSCARX no existe en Excel 2019 o anterior.~~ Resuelto: **Google Sheets** (Hojas de cálculo de Google), que tiene BUSCARV y BUSCARX. Los nombres de menús y botones salen de la ayuda de Google en español (support.google.com/docs, `hl=es-419`).
 - ~~**TPs prácticos (planilla, XAMPP):** si las actividades van en la carpeta, en la computadora o en ambas.~~ Resuelto: Parte 1 en la carpeta y Parte 2 en la computadora (`.lamina--compu`).
 - **TP9:** la instalación de XAMPP se practica en Software II; la lámina queda como guía básica. "Para profundizar": qué es SQL y tipos de datos en SQL, conectados con el TP2. Sumar una consola SQL en la página (sql.js; es la única dependencia externa prevista, consultar antes de agregarla).

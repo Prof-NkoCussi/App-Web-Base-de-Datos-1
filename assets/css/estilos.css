@@ -553,7 +553,7 @@ code.cod-formula { background: var(--planilla-suave); color: var(--planilla-text
 code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow: inset 0 0 0 1px var(--sql-claro); }
 
 /* Ventanas: los tres puntos de color delante del nombre */
-.archivo__nombre::before, .ventana-cod__barra::before {
+.archivo__nombre::before, .ventana-cod__barra::before, .planilla__nombre::before {
   content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%;
   background: var(--punto-rojo); box-shadow: 12px 0 var(--punto-amarillo), 24px 0 var(--punto-verde);
   margin-right: 24px;
@@ -653,6 +653,139 @@ code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow
 .act__archivos { display: grid; gap: 8px; justify-items: start; }
 
 /* ==========================================================
+   Planilla de cálculo (TP4 y TP5): ventana, cuadrícula, filtros
+   ========================================================== */
+/* Ventana: tres puntos, franja violeta y el nombre de la hoja */
+.planilla {
+  width: fit-content; max-width: 100%; min-width: 0; margin: 0;
+  background: var(--blanco); border: 1.5px solid var(--linea); border-radius: 8px; overflow: hidden;
+  box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .6);
+}
+.planilla__nombre {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--tinta); color: var(--blanco); box-shadow: inset 0 3px 0 var(--planilla);
+  font-size: 13px; font-weight: 600; padding: 4px 12px;
+}
+/* Cuadro de nombres y barra de fórmulas */
+.planilla__formula { display: flex; border-bottom: 1px solid var(--linea); font-size: 14px; line-height: 1.3; color: var(--tinta); }
+.planilla__formula > span { padding: 3px 10px; }
+.planilla__ref { min-width: 4.2em; border-right: 1px solid var(--linea); font-weight: 700; }
+.planilla__fx { border-right: 1px solid var(--linea); color: var(--gris); font-style: italic; font-weight: 700; }
+/* Cuadrícula: letras de columna arriba y números de fila a la izquierda, en gris */
+.planilla__marco { overflow-x: auto; }
+.planilla__tabla { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.25; color: var(--tinta); }
+.planilla__tabla th, .planilla__tabla td { border: 1px solid var(--linea); padding: 4px 9px; text-align: left; white-space: nowrap; }
+.planilla__tabla tr > :first-child { border-left: 0; }
+.planilla__tabla tr > :last-child { border-right: 0; }
+.planilla__tabla tr:last-child > * { border-bottom: 0; }
+.planilla__tabla thead tr:first-child > * { border-top: 0; }
+.planilla__tabla th { background: var(--panel); color: var(--gris); font-size: 12px; font-weight: 600; text-align: center; padding: 2px 6px; }
+.planilla__tabla tbody th, .planilla__esquina { width: 1%; }
+.planilla__tabla .planilla__esquina { background: var(--panel-oscuro); }
+.planilla__tabla td:empty::after { content: "\00a0"; }
+.planilla__tabla .enc td { font-weight: 700; }   /* fila 1: los nombres de los campos */
+.planilla__tabla .num { text-align: right; }      /* números a la derecha y textos a la izquierda, como en el programa */
+.planilla__tabla .combinada { text-align: center; font-weight: 700; }
+/* Columna = campo (acento) y fila = registro (naranja), como en el TP2 */
+.planilla__tabla col.marca-col { border: 3px solid var(--acento); background: var(--acento-suave); }
+.planilla__tabla .marca-fila { border: 3px solid var(--naranja); }
+.planilla__tabla .marca-fila td { background: var(--naranja-claro); }
+.planilla__tabla .activa { box-shadow: inset 0 0 0 2.5px var(--tinta); }
+.senal--celda b { background: var(--tinta); color: var(--blanco); }   /* la celda activa, con su borde oscuro */
+/* Criterios de orden: el primero con el acento y el segundo en naranja */
+.planilla__tabla col.tinte { background: var(--acento-suave); }
+.planilla__tabla col.tinte--naranja { background: var(--naranja-claro); }
+/* Filtro: un botón en cada encabezado; el del campo filtrado cambia de forma */
+.planilla__tabla .con-filtro { position: relative; padding-right: 22px; }
+.planilla__boton {
+  position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 14px; color: var(--tinta); --ac: var(--acento);
+  fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Lista que se abre con el botón del filtro */
+.filtro-menu {
+  position: relative; margin: 20px 0 0; width: 13.5em; max-width: 100%;
+  background: var(--blanco); border: 1.5px solid var(--linea); border-radius: 8px;
+  box-shadow: 0 6px 16px -8px rgba(15, 23, 42, .6);
+  font-size: 14px; line-height: 1.3; color: var(--tinta);
+}
+/* el rótulo va arriba, fuera del recuadro, como "Antes" y "Después" */
+.filtro-menu__rotulo {
+  position: absolute; left: 0; bottom: calc(100% + 5px);
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); white-space: nowrap;
+}
+.filtro-menu__sec { padding: 5px 10px; font-weight: 600; }
+.filtro-menu__sec::before { content: "▸"; display: inline-block; width: 1.1em; color: var(--gris); }
+.filtro-menu__sec--abierta::before { content: "▾"; }
+.filtro-menu__links { padding: 0 10px 4px 26px; font-size: 13px; color: var(--acento-texto); font-weight: 600; text-decoration: underline; }
+.filtro-menu__valores { display: grid; gap: 3px; padding: 4px 10px 8px 26px; }
+.filtro-menu__valores li { display: flex; align-items: center; gap: 8px; }
+.casilla { flex: none; width: 15px; height: 15px; border: 2px solid var(--gris); border-radius: 3px; position: relative; }
+.casilla--si { background: var(--acento); border-color: var(--acento); }
+.casilla--si::after {
+  content: ""; position: absolute; left: 3.5px; top: 0; width: 4px; height: 8px;
+  border: solid var(--tinta); border-width: 0 2px 2px 0; transform: rotate(45deg);
+}
+.filtro-menu__botones { display: flex; justify-content: flex-end; gap: 6px; padding: 6px 8px; border-top: 1px solid var(--linea); font-size: 13px; font-weight: 700; }
+.filtro-menu__botones span { padding: 3px 10px; border-radius: 5px; }
+.filtro-menu__botones span:last-child { background: var(--acento); }
+
+/* Antes y después (una columna en el celular, lado a lado en pantalla ancha) */
+.antes-despues { display: grid; gap: 10px; justify-items: center; }
+.antes-despues__lado { display: grid; gap: 5px; min-width: 0; max-width: 100%; justify-items: start; }
+.antes-despues__rotulo { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); }
+.antes-despues__nota { font-size: 14.5px; line-height: 1.35; }
+.antes-despues__medio { display: grid; gap: 6px; justify-items: center; }
+.flecha {
+  width: 22px; height: 20px; background: var(--acento);
+  clip-path: polygon(0 32%, 52% 32%, 52% 0, 100% 50%, 52% 100%, 52% 68%, 0 68%);
+  transform: rotate(90deg);
+}
+.criterio {
+  display: block; white-space: nowrap;
+  background: var(--grupo-claro); box-shadow: inset 4px 0 0 var(--grupo); border-radius: 6px;
+  padding: 3px 10px 3px 13px; font-size: 14.5px; font-weight: 600; color: var(--tinta);
+}
+
+/* Pasos en el programa, con los nombres de menús y botones */
+.instrucciones { counter-reset: paso; display: grid; gap: 6px; }
+.antes-despues__rotulo + .instrucciones { margin-top: 8px; }
+.instrucciones > li {
+  counter-increment: paso;
+  display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: start;
+  background: var(--blanco); border-radius: 8px; padding: 6px 10px 6px 7px;
+  font-size: 16px; line-height: 1.4;
+}
+.instrucciones > li::before {
+  content: counter(paso); border-radius: 6px; background: var(--acento); color: var(--tinta);
+  font-family: var(--fuente-titular); font-weight: 800; font-size: 17px; line-height: 1.35; text-align: center;
+}
+/* Texto de la pantalla del programa: menús, opciones y botones */
+.ui {
+  background: var(--acento-suave); color: var(--acento-texto); box-shadow: inset 0 0 0 1px var(--acento-claro);
+  border-radius: 4px; padding: 0 5px; font-weight: 600;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+
+/* Reglas de la lámina 11: ícono y texto, en dos columnas en pantalla ancha */
+.comun--reglas li { font-size: 16px; line-height: 1.3; padding: 8px 12px; }
+.comun--reglas .ico { width: 40px; height: 40px; }
+
+/* Dos bloques lado a lado en pantalla ancha */
+.lado-a-lado { display: grid; gap: 12px; align-items: start; justify-items: stretch; }
+.lado-a-lado .filtro-menu { justify-self: center; }
+.lado-a-lado .cuando { margin-top: 0; }
+
+/* Datos para descargar (actividades en la computadora) */
+.descarga { display: grid; gap: 8px; justify-items: start; margin-top: 9px; }
+.descarga p { font-size: 16px; line-height: 1.4; }
+.act--ancho { grid-column: 1 / -1; }
+.act > .planilla, .act__cuerpo > .planilla { margin-top: 9px; }
+.act .planilla__tabla { font-size: 14px; }
+.act .planilla__tabla td { padding: 3px 7px; }
+
+/* ==========================================================
    Pantallas medianas: secuencias horizontales
    ========================================================== */
 @media (min-width: 600px), print {
@@ -698,6 +831,18 @@ code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow
   .ejemplo p { grid-column: auto; padding-left: 12px; border-left: 2px solid var(--panel-linea); }
   .archivo-ej { grid-template-columns: auto 1fr; gap: 16px; }
   .act__cuerpo { grid-template-columns: auto 1fr; }
+
+  /* TP4, lámina 11: hasta 860 px, la planilla arriba y las señales debajo, como en el celular */
+  .senalada--planilla { grid-template-columns: 1fr; grid-template-areas: none; }
+  .senalada--planilla .planilla { justify-self: center; }
+  .senalada--planilla .senal { grid-area: auto; margin: 0; grid-template-columns: auto 1fr; }
+  .senalada--planilla .senal b { justify-self: start; }
+  .senalada--planilla .senal p { text-align: left; }
+  .senalada--planilla .senal b::after { display: none; }
+  .comun--reglas { grid-template-columns: 1fr 1fr; }
+  .lado-a-lado { grid-template-columns: 1.2fr 1fr; }
+  .lado-a-lado--menu { grid-template-columns: auto 1fr; align-items: center; }
+  .cuando--1col { grid-template-columns: 1fr; }
 }
 
 /* ==========================================================
@@ -827,6 +972,33 @@ code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow
   .comun--suelto li { padding: 10px 10px 10px 12px; gap: 8px; font-size: 18px; }
   .comun--suelto .glifo, .comun--suelto .ico { width: 34px; }
   .comun--suelto code { font-size: 15px; }
+
+  /* TP4: lámina 11, fila a la izquierda; columna y celda a la derecha, con la flecha hacia la planilla */
+  .senalada--planilla { grid-template-columns: 1fr auto 1fr; grid-template-areas: "fila tabla col" "fila tabla nota"; }
+  .senalada--planilla .planilla { grid-area: tabla; }
+  .senalada--planilla .senal { grid-template-columns: 1fr; }
+  .senalada--planilla .senal b::after { display: block; }
+  .senal--celda b::after { background: var(--tinta); }
+  .senalada--planilla .senal--fila { grid-area: fila; align-self: center; margin-top: 120px; }   /* a la altura de la fila 3 */
+  .senalada--planilla .senal--col { grid-area: col; align-self: end; }
+  .senalada--planilla .senal--tabla { grid-area: nota; align-self: start; }
+  .senalada--planilla .senal--col b, .senalada--planilla .senal--tabla b { justify-self: center; }
+  .senalada--planilla .senal--col p, .senalada--planilla .senal--tabla p { text-align: center; }
+  .senalada--planilla .senal--col b::after { left: -13px; top: 50%; transform: translateY(-50%); clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+  /* antes y después, lado a lado */
+  .antes-despues { grid-template-columns: auto auto auto; justify-content: center; align-items: center; gap: 14px; }
+  .flecha { transform: none; }
+
+  /* TP4: planilla de cálculo */
+  .planilla__tabla { font-size: 15px; }
+  .planilla__tabla td { padding: 3px 9px; }
+  .act .planilla__tabla { font-size: 13px; }
+  .act .planilla__tabla td { padding: 2px 7px; }
+  .instrucciones > li { font-size: 16.5px; }
+  .antes-despues__nota { font-size: 15px; }
+  .comun--reglas li { font-size: 16px; padding: 7px 14px; }
+  .comun--reglas .ico { width: 40px; height: 40px; }
+  .lamina--compu .act-banda h2 { font-size: 32px; }
 }
 
 /* ==========================================================
@@ -849,10 +1021,10 @@ code.cod-sql { background: var(--sql-suave); color: var(--sql-texto); box-shadow
     --consola-fondo: #F1F5F9; --consola-linea: var(--linea); --cod-texto: var(--tinta);
     --cod-etq: #BE123C; --cod-atr: #3F6212; --cod-str: #854D0E; --cod-com: #475569; --cod-num: #7E22CE; --cod-fun: #0E7490;
   }
-  .archivo, .ventana-cod { box-shadow: none; }
+  .archivo, .ventana-cod, .planilla, .filtro-menu { box-shadow: none; }
   .ventana-cod { border: 1.5px solid var(--linea); }
   .ventana-cod__barra { background: var(--blanco); }
-  .archivo__nombre { background: var(--blanco); color: var(--tinta); border-bottom: 1px solid var(--linea); }
+  .archivo__nombre, .planilla__nombre { background: var(--blanco); color: var(--tinta); border-bottom: 1px solid var(--linea); }
 }
 
 /* ==========================================================

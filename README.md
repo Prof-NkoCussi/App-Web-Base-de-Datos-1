@@ -12,7 +12,7 @@ Una versión web de cuadernillo "Bases de Datos y SQL · Desde cero", pensada pa
 
 1. **Láminas** con la teoría, una por tema.
 2. **Para profundizar**: una página que amplía cada lámina con ejemplos.
-3. **Actividades para hacer en la carpeta**.
+3. **Actividades para hacer en la carpeta** y, en los TPs prácticos, **en la computadora**.
 
 ## Cómo se usa
 
@@ -30,7 +30,7 @@ Una versión web de cuadernillo "Bases de Datos y SQL · Desde cero", pensada pa
 | 2 | Componentes de una tabla | ✅ Disponible |
 | 3 | Archivos de texto | ✅ Disponible |
 | **Módulo 2 · Operaciones con planilla de cálculo** | | |
-| 4 | La planilla como base de datos | Próximamente |
+| 4 | La planilla como base de datos | ✅ Disponible |
 | 5 | Buscar y resumir datos | Próximamente |
 | **Módulo 3 · Bases de datos relacionales** | | |
 | 6 | Software de gestión | Próximamente |
@@ -48,6 +48,7 @@ assets/css/estilos.css   estilos y paleta de colores
 assets/js/actividades.js botón PDF, barra de navegación y marca de "Visto"
 assets/fonts/            tipografías
 assets/img/              imágenes
+assets/datos/            archivos CSV para descargar desde las actividades
 ```
 
 Es un sitio estático: HTML, CSS y JavaScript, sin instalación ni servidor. Para verlo en tu computadora, descargá el repositorio y abrí `index.html` en el navegador.

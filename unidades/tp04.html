@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TP N°4 — La planilla como base de datos · Base de Datos I</title>
+  <meta name="description" content="TP N°4 de Base de Datos I: armar una base de datos en una planilla de cálculo (Google Sheets), ordenar los registros por uno o más campos y filtrarlos por valores o por condición. Prof. Nicolás A. Cussi.">
+  <meta name="theme-color" content="#A78BFA">
+  <link rel="preload" href="../assets/fonts/barlow-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/barlow-semi-condensed-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/estilos.css">
+</head>
+<body data-tp="4" class="modulo-2">
+
+<!-- ====== Íconos (SVG simples) ====== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-db-solido" viewBox="0 0 48 48">
+      <g style="fill:currentColor;stroke:none">
+        <ellipse cx="24" cy="9.5" rx="16" ry="5.5"/>
+        <path d="M8 14c2.8 2.9 9.1 4.5 16 4.5S37.2 16.9 40 14v6.5c0 3-7.2 5.5-16 5.5S8 23.5 8 20.5z"/>
+        <path d="M8 25c2.8 2.9 9.1 4.5 16 4.5S37.2 27.9 40 25v6.5c0 3-7.2 5.5-16 5.5S8 34.5 8 31.5z"/>
+        <path d="M8 36c2.8 2.9 9.1 4.5 16 4.5S37.2 38.9 40 36v2.5c0 3-7.2 5.5-16 5.5S8 41.5 8 38.5z"/>
+      </g>
+    </symbol>
+    <symbol id="i-planilla" viewBox="0 0 48 48">
+      <path d="M5.3 6.3h37.4V13H5.3zM5.3 13H12v28.7H5.3z" style="fill:var(--ac);stroke:none"/>
+      <rect x="4" y="5" width="40" height="38" rx="2"/>
+      <path d="M4 13h40M12 5v38M4 23h40M4 33h40M23 13v30M33.5 13v30"/>
+    </symbol>
+    <symbol id="i-tabla" viewBox="0 0 48 48">
+      <path d="M7.3 11.3h33.4V17H7.3z" style="fill:var(--ac);stroke:none"/>
+      <rect x="6" y="10" width="36" height="28" rx="2"/>
+      <path d="M6 17h36M6 24h36M6 31h36M18 17v21M30 17v21"/>
+    </symbol>
+    <symbol id="i-columna" viewBox="0 0 48 48">
+      <rect x="18.3" y="6.3" width="11.4" height="11.2" style="fill:var(--ac);stroke:none"/>
+      <rect x="17" y="5" width="14" height="38" rx="2"/>
+      <path d="M17 17.5h14M17 30.5h14"/>
+    </symbol>
+    <symbol id="i-fila" viewBox="0 0 48 48">
+      <rect x="17.3" y="18.3" width="13.4" height="11.4" style="fill:var(--ac);stroke:none"/>
+      <rect x="4" y="17" width="40" height="14" rx="2"/>
+      <path d="M17 17v14M31 17v14"/>
+    </symbol>
+    <symbol id="i-celda" viewBox="0 0 48 48">
+      <rect x="17.3" y="17.3" width="13.4" height="13.4" style="fill:var(--ac);stroke:none"/>
+      <rect x="4" y="4" width="40" height="40" rx="2"/>
+      <path d="M17 4v40M31 4v40M4 17h40M4 31h40"/>
+    </symbol>
+    <symbol id="i-sin-vacias" viewBox="0 0 48 48">
+      <rect x="5" y="5" width="38" height="10" rx="2" style="fill:var(--ac)"/>
+      <rect x="5" y="19" width="38" height="10" rx="2" style="stroke-dasharray:3 3.4"/>
+      <rect x="5" y="33" width="38" height="10" rx="2" style="fill:var(--ac)"/>
+      <path d="M19.5 20.5 28.5 27.5M28.5 20.5 19.5 27.5" style="stroke-width:3"/>
+    </symbol>
+    <symbol id="i-sin-combinar" viewBox="0 0 48 48">
+      <rect x="5" y="6" width="38" height="13" rx="2" style="stroke-dasharray:3 3.4"/>
+      <path d="M19.5 8.5 28.5 16.5M28.5 8.5 19.5 16.5" style="stroke-width:3"/>
+      <rect x="5" y="27" width="18" height="15" rx="2" style="fill:var(--ac)"/>
+      <rect x="25" y="27" width="18" height="15" rx="2" style="fill:var(--ac)"/>
+    </symbol>
+    <symbol id="i-ordenar" viewBox="0 0 48 48">
+      <path d="M6 21 11.5 6 17 21M8.2 15.5h6.6"/>
+      <path d="M6.5 27h10l-10 15h10"/>
+      <path d="M33 6v34M25 32l8 8 8-8" style="stroke:var(--ac);stroke-width:4"/>
+    </symbol>
+    <symbol id="i-filtro" viewBox="0 0 48 48">
+      <path d="M5 8h38L28.5 25v13l-9 5V25z" style="fill:var(--ac)"/>
+    </symbol>
+    <symbol id="i-filtro-quitar" viewBox="0 0 48 48">
+      <path d="M4 7h32L23.5 22v11l-7 4V22z" style="fill:#fff"/>
+      <circle cx="35" cy="34" r="9" style="fill:var(--ac)"/>
+      <path d="M31.5 30.5l7 7M38.5 30.5l-7 7"/>
+    </symbol>
+    <symbol id="i-casillas" viewBox="0 0 48 48">
+      <rect x="5" y="6" width="10" height="10" rx="2" style="fill:var(--ac)"/>
+      <rect x="5" y="19" width="10" height="10" rx="2"/>
+      <rect x="5" y="32" width="10" height="10" rx="2" style="fill:var(--ac)"/>
+      <path d="M7.5 11l2 2 3.5-4M7.5 37l2 2 3.5-4" style="stroke-width:2.2"/>
+      <path d="M21 11h22M21 24h16M21 37h19"/>
+    </symbol>
+    <symbol id="i-condicion" viewBox="0 0 48 48">
+      <rect x="4" y="9" width="40" height="30" rx="4" style="fill:#fff"/>
+      <path d="M17 15l14 9-14 9" style="stroke:var(--ac);stroke-width:4.5"/>
+    </symbol>
+    <symbol id="i-btn-filtro" viewBox="0 0 24 24">
+      <path d="M4 7h16M7 12h10M10 17h4"/>
+    </symbol>
+    <symbol id="i-btn-filtrado" viewBox="0 0 24 24">
+      <path d="M4 5h16l-6 7.5V19l-4-2v-4.5z" style="fill:var(--ac)"/>
+    </symbol>
+    <symbol id="i-foco" viewBox="0 0 48 48">
+      <path d="M24 2.5v4M10 8.5l2.8 2.8M38 8.5l-2.8 2.8M4 22h4M40 22h4"/>
+      <path d="M24 12a10 10 0 0 0-6.2 17.8c1.4 1.2 2.2 2.6 2.2 4.2v1h8v-1c0-1.6.8-3 2.2-4.2A10 10 0 0 0 24 12z" style="fill:var(--ac)"/>
+      <path d="M20 39h8M21.5 43h5"/>
+    </symbol>
+    <symbol id="i-importante" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" style="fill:var(--ac);stroke:none"/><path d="M24 12v15M24 35v.5" style="stroke:var(--blanco);stroke-width:5.5"/></symbol>
+    <symbol id="i-consejo" viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" style="fill:var(--ac);stroke:none"/><path d="M14 24.5l7 7 13-14" style="stroke:var(--blanco);stroke-width:5.5"/></symbol>
+    <symbol id="i-lapiz" viewBox="0 0 48 48">
+      <path d="M33 6l9 9-25 25-9-9z" style="fill:var(--ac)"/>
+      <path d="M8 31 5.5 42.5 17 40z" style="fill:#fff"/>
+      <path d="M27 12l9 9"/>
+    </symbol>
+    <symbol id="i-compu" viewBox="0 0 48 48">
+      <rect x="5" y="7" width="38" height="26" rx="2.5" style="fill:var(--ac)"/>
+      <path d="M24 33v7M15 41h18"/>
+    </symbol>
+    <symbol id="i-descarga" viewBox="0 0 24 24">
+      <path d="M12 3v12M7 10l5 5 5-5M5 20h14"/>
+    </symbol>
+    <symbol id="i-atras" viewBox="0 0 24 24">
+      <path d="M20 12H5M11 6l-6 6 6 6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+
+<header class="barra">
+  <div class="barra__fila">
+    <a class="boton barra__volver" href="../index.html"><svg aria-hidden="true" focusable="false"><use href="#i-atras"/></svg><span>Índice</span></a>
+    <span class="barra__titulo">TP N°4 — La planilla como base de datos</span>
+    <button class="boton" type="button" data-imprimir aria-label="Guardar en PDF">
+      <svg aria-hidden="true" focusable="false"><use href="#i-descarga"/></svg><span><span class="boton__largo">Guardar </span>PDF</span>
+    </button>
+  </div>
+  <nav class="partes" aria-label="Partes del TP N°4">
+    <a href="#pag-11">11 · Armar la base</a>
+    <a href="#pag-12">12 · Ordenar</a>
+    <a href="#pag-13">13 · Filtrar</a>
+    <a href="#profundizar">Para profundizar</a>
+    <a href="#actividades">Actividades</a>
+  </nav>
+</header>
+
+<main id="contenido" class="laminas">
+  <h1 class="sr-only">TP N°4 — La planilla como base de datos</h1>
+
+  <!-- =================== LÁMINA 11 (contenido nuevo, no está en el PDF) =================== -->
+  <article class="lamina" id="pag-11" aria-labelledby="t11" data-origen="nuevo">
+    <div class="cab" aria-hidden="true">
+      <svg class="cab__logo"><use href="#i-db-solido"/></svg>
+      <div class="cab__marca"><b>BASES DE DATOS Y SQL</b><span>DESDE CERO</span></div>
+      <div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°4</span></div>
+      <span class="cab__raya"></span>
+    </div>
+
+    <div class="tit">
+      <h2 class="tit__h" id="t11"><span class="tit__num">11.</span> Armar la base de datos</h2>
+      <p class="tit__sub">Una tabla bien hecha en la planilla</p>
+    </div>
+
+    <div class="intro">
+      <svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-planilla"/></svg>
+      <p>Una <strong>planilla de cálculo</strong>, como Google Sheets, puede funcionar como una base de datos sencilla si la tabla sigue algunas reglas. Así queda la tabla ALUMNOS de los TPs 2 y 3:</p>
+    </div>
+
+    <div class="panel senalada senalada--planilla">
+      <figure class="planilla">
+        <figcaption class="planilla__nombre">alumnos</figcaption>
+        <div class="planilla__formula" aria-hidden="true"><span class="planilla__ref">B3</span><span class="planilla__fx">fx</span><span>Luis</span></div>
+        <div class="planilla__marco">
+          <table class="planilla__tabla">
+            <caption class="sr-only">La tabla ALUMNOS en una planilla: columnas A a E y filas 1 a 5</caption>
+            <colgroup><col><col><col class="marca-col"><col><col><col></colgroup>
+            <thead>
+              <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th><th scope="col">E</th></tr>
+            </thead>
+            <tbody>
+              <tr class="enc"><th scope="row">1</th><td>id</td><td>nombre</td><td>curso</td><td>edad</td><td></td></tr>
+              <tr><th scope="row">2</th><td class="num">1</td><td>Ana</td><td>1º A</td><td class="num">13</td><td></td></tr>
+              <tr class="marca-fila"><th scope="row">3</th><td class="num">2</td><td class="activa">Luis</td><td>2º B</td><td class="num">14</td><td></td></tr>
+              <tr><th scope="row">4</th><td class="num">3</td><td>Sofía</td><td>1º A</td><td class="num">13</td><td></td></tr>
+              <tr><th scope="row">5</th><td class="num">4</td><td>Mateo</td><td>3º C</td><td class="num">15</td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </figure>
+      <div class="senal senal--fila"><b>Fila = registro</b><p>La fila 3 tiene todos los datos de Luis.</p></div>
+      <div class="senal senal--col"><b>Columna = campo</b><p>La columna B guarda los nombres.</p></div>
+      <div class="senal senal--tabla senal--celda"><b>Celda</b><p>B3 guarda un solo dato: Luis.</p></div>
+    </div>
+
+    <section class="panel" aria-labelledby="c11b">
+      <div class="panel__cab"><h3 class="subtitulo" id="c11b">Las reglas de una buena base</h3></div>
+      <ul class="comun comun--reglas">
+        <li><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-tabla"/></svg><span><strong>Una fila de encabezados.</strong> En la fila 1, el nombre de cada campo.</span></li>
+        <li><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-fila"/></svg><span><strong>Un registro por fila.</strong> Cada alumno ocupa una fila completa.</span></li>
+        <li><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-celda"/></svg><span><strong>Un dato por celda.</strong> El nombre en una celda; el curso, en otra.</span></li>
+        <li><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-columna"/></svg><span><strong>El mismo tipo en toda la columna.</strong> En edad, solo números.</span></li>
+        <li><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-sin-vacias"/></svg><span><strong>Sin filas vacías.</strong> Una fila vacía corta la tabla en dos.</span></li>
+        <li><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-sin-combinar"/></svg><span><strong>Sin celdas combinadas.</strong> No unimos celdas, ni siquiera para un título.</span></li>
+      </ul>
+    </section>
+
+    <aside class="idea" aria-label="Idea clave">
+      <span class="idea__ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-foco"/></svg></span>
+      <p><strong>Idea clave:</strong> En una planilla bien armada, cada columna es un campo, cada fila es un registro y cada celda guarda un solo dato.</p>
+    </aside>
+
+    <footer class="pie">
+      <span class="pie__linea"></span>
+      <span>Base de Datos I — Prof. Nicolás A. Cussi</span>
+      <span class="pie__linea"></span>
+      <span class="pie__num" aria-label="Página 11">11</span>
+    </footer>
+  </article>
+
+  <!-- =================== LÁMINA 12 (contenido nuevo, no está en el PDF) =================== -->
+  <article class="lamina" id="pag-12" aria-labelledby="t12" data-origen="nuevo">
+    <div class="cab" aria-hidden="true">
+      <svg class="cab__logo"><use href="#i-db-solido"/></svg>
+      <div class="cab__marca"><b>BASES DE DATOS Y SQL</b><span>DESDE CERO</span></div>
+      <div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°4</span></div>
+      <span class="cab__raya"></span>
+    </div>
+
+    <div class="tit">
+      <h2 class="tit__h" id="t12"><span class="tit__num">12.</span> Ordenar los datos</h2>
+      <p class="tit__sub">Cambiar el orden de los registros</p>
+    </div>
+
+    <div class="intro">
+      <svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-ordenar"/></svg>
+      <p><strong>Ordenar</strong> es cambiar el orden de los registros según un campo, <strong>de menor a mayor</strong> (A → Z, 1 → 9) o <strong>de mayor a menor</strong> (Z → A, 9 → 1).</p>
+    </div>
+
+    <div class="panel">
+      <div class="antes-despues">
+        <div class="antes-despues__lado">
+          <p class="antes-despues__rotulo">Antes</p>
+          <figure class="planilla">
+            <figcaption class="planilla__nombre">alumnos</figcaption>
+            <div class="planilla__marco">
+              <table class="planilla__tabla">
+                <caption class="sr-only">ALUMNOS antes de ordenar, en el orden del campo id</caption>
+                <thead>
+                  <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="enc"><th scope="row">1</th><td>id</td><td>nombre</td><td>curso</td><td>edad</td></tr>
+                  <tr><th scope="row">2</th><td class="num">1</td><td>Ana</td><td>1º A</td><td class="num">13</td></tr>
+                  <tr><th scope="row">3</th><td class="num">2</td><td>Luis</td><td>2º B</td><td class="num">14</td></tr>
+                  <tr><th scope="row">4</th><td class="num">3</td><td>Sofía</td><td>1º A</td><td class="num">13</td></tr>
+                  <tr><th scope="row">5</th><td class="num">4</td><td>Mateo</td><td>3º C</td><td class="num">15</td></tr>
+                  <tr><th scope="row">6</th><td class="num">5</td><td>Bruno</td><td>2º B</td><td class="num">14</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="antes-despues__nota">Sumamos a Bruno, del TP3.</p>
+        </div>
+        <div class="antes-despues__medio">
+          <span class="criterio grupo"><b>1.º</b> curso, A → Z</span>
+          <span class="criterio grupo grupo--naranja"><b>2.º</b> nombre, A → Z</span>
+          <span class="flecha" aria-hidden="true"></span>
+        </div>
+        <div class="antes-despues__lado">
+          <p class="antes-despues__rotulo">Después</p>
+          <figure class="planilla">
+            <figcaption class="planilla__nombre">alumnos</figcaption>
+            <div class="planilla__marco">
+              <table class="planilla__tabla">
+                <caption class="sr-only">ALUMNOS ordenada por curso y, dentro de cada curso, por nombre</caption>
+                <colgroup><col><col><col class="tinte--naranja"><col class="tinte"><col></colgroup>
+                <thead>
+                  <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="enc"><th scope="row">1</th><td>id</td><td>nombre</td><td>curso</td><td>edad</td></tr>
+                  <tr><th scope="row">2</th><td class="num">1</td><td>Ana</td><td>1º A</td><td class="num">13</td></tr>
+                  <tr><th scope="row">3</th><td class="num">3</td><td>Sofía</td><td>1º A</td><td class="num">13</td></tr>
+                  <tr><th scope="row">4</th><td class="num">5</td><td>Bruno</td><td>2º B</td><td class="num">14</td></tr>
+                  <tr><th scope="row">5</th><td class="num">2</td><td>Luis</td><td>2º B</td><td class="num">14</td></tr>
+                  <tr><th scope="row">6</th><td class="num">4</td><td>Mateo</td><td>3º C</td><td class="num">15</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="antes-despues__nota">En 2º B decide el nombre: Bruno, Luis.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lado-a-lado">
+      <section class="panel" aria-labelledby="c12b">
+        <h3 class="antes-despues__rotulo" id="c12b">En Google Sheets</h3>
+        <ol class="instrucciones">
+          <li><span>Seleccioná <strong>toda la tabla</strong>: de A1 a D6.</span></li>
+          <li><span><span class="ui">Datos</span> › <span class="ui">Ordenar rango</span> › <span class="ui">Opciones avanzadas</span>.</span></li>
+          <li><span>Tildá la fila de encabezado. <span class="ui">Ordenar por</span>: curso, A → Z.</span></li>
+          <li><span><span class="ui">Agregar otra columna de ordenación</span>: nombre, A → Z. Y <span class="ui">Ordenar</span>.</span></li>
+        </ol>
+      </section>
+
+      <div class="nota nota--importante">
+        <h3><svg class="ico tit-ico" aria-hidden="true" focusable="false"><use href="#i-importante"/></svg>Importante</h3>
+        <p>Hay que ordenar <strong>toda la tabla</strong>. Si seleccionamos una sola columna, los registros se desarman.</p>
+        <p>Si ordenamos solo nombre, Sofía pasa a la fila 6 y queda con el curso y la edad de Bruno: 2º B y 14.</p>
+      </div>
+    </div>
+
+    <aside class="idea" aria-label="Idea clave">
+      <span class="idea__ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-foco"/></svg></span>
+      <p><strong>Idea clave:</strong> Al ordenar, cada registro se mueve completo. El segundo campo decide solo si el primero se repite.</p>
+    </aside>
+
+    <footer class="pie">
+      <span class="pie__linea"></span>
+      <span>Base de Datos I — Prof. Nicolás A. Cussi</span>
+      <span class="pie__linea"></span>
+      <span class="pie__num" aria-label="Página 12">12</span>
+    </footer>
+  </article>
+
+  <!-- =================== LÁMINA 13 (contenido nuevo, no está en el PDF) =================== -->
+  <article class="lamina" id="pag-13" aria-labelledby="t13" data-origen="nuevo">
+    <div class="cab" aria-hidden="true">
+      <svg class="cab__logo"><use href="#i-db-solido"/></svg>
+      <div class="cab__marca"><b>BASES DE DATOS Y SQL</b><span>DESDE CERO</span></div>
+      <div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°4</span></div>
+      <span class="cab__raya"></span>
+    </div>
+
+    <div class="tit">
+      <h2 class="tit__h" id="t13"><span class="tit__num">13.</span> Filtrar los datos</h2>
+      <p class="tit__sub">Ver solo los registros que buscamos</p>
+    </div>
+
+    <div class="intro">
+      <svg class="ico ico--xl" aria-hidden="true" focusable="false"><use href="#i-filtro"/></svg>
+      <p><strong>Filtrar</strong> es mostrar solo los registros que cumplen una condición. Los demás se <strong>ocultan, no se borran</strong>.</p>
+    </div>
+
+    <div class="panel">
+      <div class="antes-despues">
+        <div class="antes-despues__lado">
+          <p class="antes-despues__rotulo">Antes</p>
+          <figure class="planilla">
+            <figcaption class="planilla__nombre">alumnos</figcaption>
+            <div class="planilla__marco">
+              <table class="planilla__tabla">
+                <caption class="sr-only">ALUMNOS con un filtro creado y todos los registros a la vista</caption>
+                <thead>
+                  <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="enc"><th scope="row">1</th><td class="con-filtro">id<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td><td class="con-filtro">nombre<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td><td class="con-filtro">curso<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td><td class="con-filtro">edad<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td></tr>
+                  <tr><th scope="row">2</th><td class="num">1</td><td>Ana</td><td>1º A</td><td class="num">13</td></tr>
+                  <tr><th scope="row">3</th><td class="num">2</td><td>Luis</td><td>2º B</td><td class="num">14</td></tr>
+                  <tr><th scope="row">4</th><td class="num">3</td><td>Sofía</td><td>1º A</td><td class="num">13</td></tr>
+                  <tr><th scope="row">5</th><td class="num">4</td><td>Mateo</td><td>3º C</td><td class="num">15</td></tr>
+                  <tr><th scope="row">6</th><td class="num">5</td><td>Bruno</td><td>2º B</td><td class="num">14</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="antes-despues__nota"><span class="ui">Datos</span> › <span class="ui">Crear un filtro</span> suma un botón a cada encabezado.</p>
+        </div>
+        <div class="antes-despues__medio">
+          <span class="flecha" aria-hidden="true"></span>
+        </div>
+        <div class="antes-despues__lado">
+          <p class="antes-despues__rotulo">Después</p>
+          <figure class="planilla">
+            <figcaption class="planilla__nombre">alumnos</figcaption>
+            <div class="planilla__marco">
+              <table class="planilla__tabla">
+                <caption class="sr-only">ALUMNOS filtrada por curso: solo se ven los registros de 2º B, en las filas 3 y 6</caption>
+                <thead>
+                  <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="enc"><th scope="row">1</th><td class="con-filtro">id<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td><td class="con-filtro">nombre<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td><td class="con-filtro">curso<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtrado"/></svg></td><td class="con-filtro">edad<svg class="planilla__boton" aria-hidden="true" focusable="false"><use href="#i-btn-filtro"/></svg></td></tr>
+                  <tr><th scope="row">3</th><td class="num">2</td><td>Luis</td><td>2º B</td><td class="num">14</td></tr>
+                  <tr><th scope="row">6</th><td class="num">5</td><td>Bruno</td><td>2º B</td><td class="num">14</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <p class="antes-despues__nota">Los números de fila saltan: las filas 2, 4 y 5 siguen ahí, ocultas. El botón de curso cambia de forma.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lado-a-lado lado-a-lado--menu">
+      <figure class="filtro-menu">
+        <figcaption class="filtro-menu__rotulo">La lista de curso</figcaption>
+        <p class="filtro-menu__sec">Filtrar por condición</p>
+        <p class="filtro-menu__sec filtro-menu__sec--abierta">Filtrar por valores</p>
+        <p class="filtro-menu__links">Seleccionar todo · Borrar</p>
+        <ul class="filtro-menu__valores">
+          <li><span class="casilla" aria-hidden="true"></span><span class="sr-only">Sin tildar:</span> 1º A</li>
+          <li><span class="casilla casilla--si" aria-hidden="true"></span><span class="sr-only">Tildado:</span> 2º B</li>
+          <li><span class="casilla" aria-hidden="true"></span><span class="sr-only">Sin tildar:</span> 3º C</li>
+        </ul>
+        <p class="filtro-menu__botones"><span>Cancelar</span><span>Aceptar</span></p>
+      </figure>
+      <ul class="cuando cuando--1col">
+        <li><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-casillas"/></svg><span><strong>Por valores:</strong> tildamos los valores que queremos ver, como 2º B en la lista de curso.</span></li>
+        <li><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-condicion"/></svg><span><strong>Por condición:</strong> elegimos una regla. Con edad <span class="ui">Mayor que</span> 13, quedan Luis, Mateo y Bruno.</span></li>
+        <li><svg class="ico ico--l" aria-hidden="true" focusable="false"><use href="#i-filtro-quitar"/></svg><span><strong>Quitar el filtro:</strong> en la lista, <span class="ui">Seleccionar todo</span> y <span class="ui">Aceptar</span>. Para quitarlo de todos los campos, <span class="ui">Datos</span> › <span class="ui">Quitar filtro</span>.</span></li>
+      </ul>
+    </div>
+
+    <aside class="idea" aria-label="Idea clave">
+      <span class="idea__ico"><svg class="ico" aria-hidden="true" focusable="false"><use href="#i-foco"/></svg></span>
+      <p><strong>Idea clave:</strong> Filtrar no borra datos: oculta por un rato los registros que no cumplen la condición.</p>
+    </aside>
+
+    <footer class="pie">
+      <span class="pie__linea"></span>
+      <span>Base de Datos I — Prof. Nicolás A. Cussi</span>
+      <span class="pie__linea"></span>
+      <span class="pie__num" aria-label="Página 13">13</span>
+    </footer>
+  </article>
+
+  <!-- =================== PARA PROFUNDIZAR (contenido nuevo, no está en el PDF) =================== -->
+  <article class="lamina lamina--pf" id="profundizar" aria-labelledby="tpf" data-origen="nuevo">
+    <div class="cab" aria-hidden="true">
+      <svg class="cab__logo"><use href="#i-db-solido"/></svg>
+      <div class="cab__marca"><b>BASES DE DATOS Y SQL</b><span>DESDE CERO</span></div>
+      <div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°4</span></div>
+      <span class="cab__raya"></span>
+    </div>
+
+    <div class="tit">
+      <h2 class="tit__h" id="tpf"><span class="tit__num">+</span> Para profundizar</h2>
+      <p class="tit__sub">Un poco más sobre cada lámina</p>
+    </div>
+
+    <div class="pf-grid">
+    <section class="pf" aria-labelledby="pf1">
+      <p class="pf__etiqueta">Lámina 11</p>
+      <h3 class="pf__titulo" id="pf1">Las reglas las cumplimos nosotros</h3>
+      <div class="pf__cols">
+        <div class="pf__texto">
+          <p>La planilla nos deja escribir cualquier cosa en cualquier celda: no controla que se cumplan las reglas de la lámina 11. Si no las respetamos, ordenar y filtrar dan resultados equivocados.</p>
+          <p>Una pista para ver el tipo de dato: la planilla alinea los números a la derecha y los textos a la izquierda. Si en edad aparece “14 años” a la izquierda, es un texto.</p>
+        </div>
+        <div class="pf__caja pf__caja--consejo">
+          <h4><svg class="ico tit-ico" aria-hidden="true" focusable="false"><use href="#i-consejo"/></svg>Recomendación</h4>
+          <p>Inmovilizá la fila de encabezados: <span class="ui">Ver</span> › <span class="ui">Inmovilizar</span> › <span class="ui">1 fila</span>.</p>
+          <p>Así, al bajar por una tabla larga, los nombres de los campos quedan siempre a la vista.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf" aria-labelledby="pf2">
+      <p class="pf__etiqueta">Lámina 12</p>
+      <h3 class="pf__titulo" id="pf2">¿Cómo ordena la planilla?</h3>
+      <div class="pf__cols">
+        <div class="pf__texto">
+          <p>Los números se ordenan por su valor, y los textos, letra por letra, como en el diccionario. Las celdas vacías quedan siempre al final.</p>
+          <p>Por eso importa el tipo de dato del TP2: si las edades se escriben como texto, la planilla ya no compara números, sino caracteres.</p>
+        </div>
+        <div class="pf__caja">
+          <h4>Edades guardadas como texto</h4>
+          <p>Ordenadas de A a Z, quedan así: “10 años”, “13 años”, “9 años”.</p>
+          <p>El 9 queda último porque el carácter 9 va después del 1. Con números, el orden es 9, 10, 13.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf" aria-labelledby="pf3">
+      <p class="pf__etiqueta">Lámina 13</p>
+      <h3 class="pf__titulo" id="pf3">Filtrar por dos campos</h3>
+      <div class="pf__cols">
+        <div class="pf__texto">
+          <p>Podemos poner filtros en más de un campo a la vez. Así se ven solo los registros que cumplen <strong>todas</strong> las condiciones juntas.</p>
+          <p>Abajo a la derecha, la planilla muestra cuántas filas se ven del total. Si ningún registro cumple, solo queda la fila de encabezados.</p>
+        </div>
+        <div class="pf__caja">
+          <h4>Probemos con ALUMNOS</h4>
+          <ul class="pf__lista">
+            <li><strong>curso 1º A</strong> → Ana y Sofía.</li>
+            <li><strong>curso 2º B</strong> y <strong>edad Mayor que 13</strong> → Luis y Bruno.</li>
+            <li><strong>curso 2º B</strong> y <strong>edad Mayor que 14</strong> → ningún registro.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf" aria-labelledby="pf4">
+      <p class="pf__etiqueta">Con el TP3</p>
+      <h3 class="pf__titulo" id="pf4">Abrir alumnos.csv en la planilla</h3>
+      <div class="pf__cols">
+        <div class="pf__texto">
+          <p>El archivo <code class="cod-archivo">alumnos.csv</code> del TP3 se puede abrir en Google Sheets: cada línea pasa a ser una fila, y cada coma marca dónde empieza la columna siguiente.</p>
+          <p>Si las tildes se ven mal (Sof�a), el archivo no se guardó en UTF-8. En el Bloc de notas: <span class="ui">Guardar como</span> › <span class="ui">Codificación</span> › <span class="ui">UTF-8</span>.</p>
+        </div>
+        <div class="pf__caja">
+          <h4>Paso a paso</h4>
+          <ul class="pf__lista">
+            <li><span class="ui">Archivo</span> › <span class="ui">Importar</span> › <span class="ui">Subir</span>, y elegimos el archivo.</li>
+            <li>Elegimos <span class="ui">Crear una nueva hoja de cálculo</span>.</li>
+            <li>En <span class="ui">Carácter de separador</span>: <span class="ui">Coma</span>. Si el archivo usa punto y coma: <span class="ui">Personalizado</span>, y escribimos ;</li>
+            <li>Por último, <span class="ui">Importar</span>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <footer class="pie">
+      <span class="pie__linea"></span>
+      <span>Base de Datos I — Prof. Nicolás A. Cussi</span>
+      <span class="pie__linea"></span>
+      <span class="pie__num">TP 4</span>
+    </footer>
+  </article>
+
+  <!-- =================== ACTIVIDADES · Parte 1 (contenido nuevo, no está en el PDF) =================== -->
+  <article class="lamina lamina--act" id="actividades" aria-labelledby="act-1" data-origen="nuevo">
+    <div class="cab" aria-hidden="true">
+      <svg class="cab__logo"><use href="#i-db-solido"/></svg>
+      <div class="cab__marca"><b>BASES DE DATOS Y SQL</b><span>DESDE CERO</span></div>
+      <div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°4</span></div>
+      <span class="cab__raya"></span>
+    </div>
+
+    <header class="act-banda">
+      <svg class="ico" aria-hidden="true" focusable="false"><use href="#i-lapiz"/></svg>
+      <div>
+        <h2 id="act-1">Actividades para hacer en la carpeta</h2>
+        <p>TP N°4 — La planilla como base de datos</p>
+      </div>
+      <span class="act-banda__parte">Parte<br>1 de 2</span>
+    </header>
+
+    <p class="consigna"><strong>Consigna:</strong> Respondé cada punto de forma completa, usando tus propias palabras. Podés apoyarte en las láminas y en “Para profundizar” del TP N°4.</p>
+
+    <!-- Puntos 1 a 3: uno por lámina · Punto 4: integrador -->
+    <ol class="acts acts--2col">
+      <li class="act">
+        <h3 class="act__titulo"><span class="act__num">1-</span> Armar la base</h3>
+        <ol class="act__items">
+          <li><b class="act__letra">a)</b><div>En una planilla usada como base de datos, ¿qué es cada columna? ¿Y cada fila? ¿Qué va en la fila 1?</div></li>
+          <li><b class="act__letra">b)</b><div>En la planilla de la lámina 11, ¿qué dato hay en la celda C4? ¿En qué celda está la edad de Mateo?</div></li>
+          <li><b class="act__letra">c)</b><div>Si queremos guardar también el email de cada alumno, ¿en qué columna lo agregamos? ¿Qué escribimos en la fila 1?</div></li>
+        </ol>
+      </li>
+      <li class="act">
+        <h3 class="act__titulo"><span class="act__num">2-</span> Ordenar</h3>
+        <ol class="act__items">
+          <li><b class="act__letra">a)</b><div>¿Qué quiere decir ordenar de A a Z? ¿Y de Z a A? Dá un ejemplo con números.</div></li>
+          <li><b class="act__letra">b)</b><div>Escribí cómo queda ALUMNOS (lámina 12) ordenada por edad, de mayor a menor, y por nombre de A a Z cuando la edad se repite.</div></li>
+          <li><b class="act__letra">c)</b><div>En el recuadro “Importante” de la lámina 12, ¿qué curso y qué edad le quedan a Luis? ¿Por qué decimos que el registro se desarmó?</div></li>
+        </ol>
+      </li>
+      <li class="act">
+        <h3 class="act__titulo"><span class="act__num">3-</span> Filtrar</h3>
+        <ol class="act__items">
+          <li><b class="act__letra">a)</b><div>Cuando filtramos, ¿qué pasa con los registros que no cumplen la condición? ¿Se pierden?</div></li>
+          <li><b class="act__letra">b)</b><div>En ALUMNOS (lámina 13), ¿qué registros quedan con el filtro edad <span class="ui">Menor que</span> 14? ¿Qué números de fila se ven?</div></li>
+          <li><b class="act__letra">c)</b><div>Mirando la planilla, ¿cómo te das cuenta de que tiene un filtro puesto? Nombrá dos pistas.</div></li>
+        </ol>
+      </li>
+      <li class="act">
+        <h3 class="act__titulo"><span class="act__num">4-</span> Encontrá los errores</h3>
+        <figure class="planilla">
+          <figcaption class="planilla__nombre">torneo</figcaption>
+          <div class="planilla__marco">
+            <table class="planilla__tabla">
+              <caption class="sr-only">Planilla con errores: columnas A a D y filas 1 a 6</caption>
+              <thead>
+                <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">1</th><td colspan="4" class="combinada">INSCRIPTOS AL TORNEO</td></tr>
+                <tr class="enc"><th scope="row">2</th><td>nombre</td><td>curso</td><td>edad</td><td>deporte</td></tr>
+                <tr><th scope="row">3</th><td>Valentina</td><td>5º A</td><td class="num">17</td><td>Vóley</td></tr>
+                <tr><th scope="row">4</th><td>Tomás, 2º A</td><td></td><td>14 años</td><td>Fútbol</td></tr>
+                <tr><th scope="row">5</th><td></td><td></td><td></td><td></td></tr>
+                <tr><th scope="row">6</th><td>Julieta</td><td>4º B</td><td class="num">16</td><td>Vóley</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </figure>
+        <ol class="act__items">
+          <li><b class="act__letra">a)</b><div>Encontrá los cuatro errores. ¿Qué regla de la lámina 11 rompe cada uno?</div></li>
+          <li><b class="act__letra">b)</b><div>Dibujá la planilla corregida. ¿En qué celda queda la edad de Julieta?</div></li>
+          <li><b class="act__letra">c)</b><div>Si la ordenáramos por edad así como está, ¿qué podría pasar con Julieta? ¿Y con Tomás?</div></li>
+        </ol>
+      </li>
+    </ol>
+
+    <footer class="pie">
+      <span class="pie__linea"></span>
+      <span>Base de Datos I — Prof. Nicolás A. Cussi</span>
+      <span class="pie__linea"></span>
+      <span class="pie__num">TP 4</span>
+    </footer>
+  </article>
+
+  <!-- =================== ACTIVIDADES · Parte 2, en la computadora (contenido nuevo, no está en el PDF) =================== -->
+  <article class="lamina lamina--act lamina--compu" id="actividades-2" aria-labelledby="act-2" data-origen="nuevo">
+    <div class="cab" aria-hidden="true">
+      <svg class="cab__logo"><use href="#i-db-solido"/></svg>
+      <div class="cab__marca"><b>BASES DE DATOS Y SQL</b><span>DESDE CERO</span></div>
+      <div class="cab__lema">TRABAJO PRÁCTICO <span class="cab__lema-n">N°4</span></div>
+      <span class="cab__raya"></span>
+    </div>
+
+    <header class="act-banda">
+      <svg class="ico" aria-hidden="true" focusable="false"><use href="#i-compu"/></svg>
+      <div>
+        <h2 id="act-2">Actividades para hacer en la computadora</h2>
+        <p>TP N°4 — La planilla como base de datos</p>
+      </div>
+      <span class="act-banda__parte">Parte<br>2 de 2</span>
+    </header>
+
+    <p class="consigna"><strong>Consigna:</strong> Trabajá en Google Sheets con las inscripciones a los talleres de la semana del estudiante. Anotá en la carpeta las respuestas a las preguntas.</p>
+
+    <ol class="acts acts--2col" start="5">
+      <li class="act act--ancho">
+        <h3 class="act__titulo"><span class="act__num">5-</span> Armar la base</h3>
+        <div class="act__cuerpo">
+          <figure class="planilla">
+            <figcaption class="planilla__nombre">talleres</figcaption>
+            <div class="planilla__marco">
+              <table class="planilla__tabla">
+                <caption class="sr-only">Inscripciones a los talleres: columnas A a E y filas 1 a 13</caption>
+                <thead>
+                  <tr><td class="planilla__esquina"></td><th scope="col">A</th><th scope="col">B</th><th scope="col">C</th><th scope="col">D</th><th scope="col">E</th></tr>
+                </thead>
+                <tbody>
+                  <tr class="enc"><th scope="row">1</th><td>id</td><td>nombre</td><td>curso</td><td>taller</td><td>edad</td></tr>
+                  <tr><th scope="row">2</th><td class="num">1</td><td>Martina</td><td>3º A</td><td>Teatro</td><td class="num">15</td></tr>
+                  <tr><th scope="row">3</th><td class="num">2</td><td>Joaquín</td><td>1º B</td><td>Robótica</td><td class="num">13</td></tr>
+                  <tr><th scope="row">4</th><td class="num">3</td><td>Valentina</td><td>5º A</td><td>Fotografía</td><td class="num">17</td></tr>
+                  <tr><th scope="row">5</th><td class="num">4</td><td>Tomás</td><td>2º A</td><td>Ajedrez</td><td class="num">14</td></tr>
+                  <tr><th scope="row">6</th><td class="num">5</td><td>Camila</td><td>1º B</td><td>Teatro</td><td class="num">12</td></tr>
+                  <tr><th scope="row">7</th><td class="num">6</td><td>Benjamín</td><td>4º B</td><td>Robótica</td><td class="num">16</td></tr>
+                  <tr><th scope="row">8</th><td class="num">7</td><td>Lucía</td><td>2º A</td><td>Fotografía</td><td class="num">13</td></tr>
+                  <tr><th scope="row">9</th><td class="num">8</td><td>Thiago</td><td>3º A</td><td>Ajedrez</td><td class="num">15</td></tr>
+                  <tr><th scope="row">10</th><td class="num">9</td><td>Abril</td><td>5º A</td><td>Robótica</td><td class="num">17</td></tr>
+                  <tr><th scope="row">11</th><td class="num">10</td><td>Santino</td><td>1º B</td><td>Ajedrez</td><td class="num">13</td></tr>
+                  <tr><th scope="row">12</th><td class="num">11</td><td>Emilia</td><td>4º B</td><td>Teatro</td><td class="num">16</td></tr>
+                  <tr><th scope="row">13</th><td class="num">12</td><td>Facundo</td><td>2º A</td><td>Robótica</td><td class="num">14</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+          <div>
+            <div class="descarga">
+              <p>Los datos están en el archivo <code class="cod-archivo">talleres.csv</code>. Descargalo desde la página del TP4 o copiá la tabla a mano.</p>
+              <a class="boton no-imprimir" href="../assets/datos/talleres.csv" download="talleres.csv"><svg aria-hidden="true" focusable="false"><use href="#i-descarga"/></svg><span>Descargar talleres.csv</span></a>
+            </div>
+            <ol class="act__items">
+              <li><b class="act__letra">a)</b><div>Abrí el archivo en Google Sheets: <span class="ui">Archivo</span> › <span class="ui">Importar</span> › <span class="ui">Subir</span>. Revisá que cada campo quede en su columna y que las tildes se vean bien.</div></li>
+              <li><b class="act__letra">b)</b><div>Inmovilizá la fila de encabezados: <span class="ui">Ver</span> › <span class="ui">Inmovilizar</span> › <span class="ui">1 fila</span>.</div></li>
+              <li><b class="act__letra">c)</b><div>Agregá dos registros, el tuyo y el de un compañero (id 13 y 14), en uno de los cuatro talleres. Respetá las reglas de la lámina 11.</div></li>
+            </ol>
+          </div>
+        </div>
+      </li>
+      <li class="act">
+        <h3 class="act__titulo"><span class="act__num">6-</span> Ordenar</h3>
+        <ol class="act__items">
+          <li><b class="act__letra">a)</b><div>Ordená por nombre, de A a Z. ¿Quién quedó primero? ¿Y último?</div></li>
+          <li><b class="act__letra">b)</b><div>Ordená por edad, de mayor a menor. ¿Qué edad tiene el primero? ¿Y el último?</div></li>
+          <li><b class="act__letra">c)</b><div>Ordená por taller y, dentro de cada taller, por curso. Copiá cómo quedó Robótica.</div></li>
+          <li><b class="act__letra">d)</b><div>Volvé a ordenar por id. ¿Para qué sirve tener un campo así?</div></li>
+        </ol>
+      </li>
+      <li class="act">
+        <h3 class="act__titulo"><span class="act__num">7-</span> Filtrar</h3>
+        <ol class="act__items">
+          <li><b class="act__letra">a)</b><div>Creá un filtro y dejá solo Teatro. ¿Cuántos registros y qué filas se ven?</div></li>
+          <li><b class="act__letra">b)</b><div>Quitá ese filtro: ¿volvieron todos? Filtrá edad por condición, <span class="ui">Mayor que</span> 14. ¿Quiénes quedan?</div></li>
+          <li><b class="act__letra">c)</b><div>Sin sacar el de edad, filtrá taller: Robótica. ¿Quiénes cumplen las dos?</div></li>
+          <li><b class="act__letra">d)</b><div>La profe de Ajedrez pide sus inscriptos por curso. ¿Hay que ordenar, filtrar o las dos cosas? Hacelo.</div></li>
+        </ol>
+      </li>
+    </ol>
+
+    <footer class="pie">
+      <span class="pie__linea"></span>
+      <span>Base de Datos I — Prof. Nicolás A. Cussi</span>
+      <span class="pie__linea"></span>
+      <span class="pie__num">TP 4</span>
+    </footer>
+  </article>
+</main>
+
+<script src="../assets/js/actividades.js"></script>
+</body>
+</html>
