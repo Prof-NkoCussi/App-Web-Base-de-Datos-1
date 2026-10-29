@@ -30,6 +30,7 @@ assets/fonts/            Barlow, Barlow Semi Condensed, Barlow Condensed (locale
 assets/img/
 assets/datos/            CSV para descargar desde las actividades en la computadora (UTF-8, separados por coma)
 README.md                presentación del sitio + tabla de TPs con su estado
+CONTENIDOS.md            contenidos oficiales del diseño curricular y en qué TP se ve cada uno
 ```
 
 HTML, CSS y JavaScript vanilla. Sin frameworks, sin build, sin backend, sin dependencias externas.
