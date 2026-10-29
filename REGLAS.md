@@ -116,6 +116,7 @@ Cada color significa algo. Va en marcos, etiquetas, íconos y esquemas; **no** e
 
 ## Contenido
 
+- Los contenidos oficiales del diseño curricular están en `CONTENIDOS.md` y mandan sobre el PDF. Antes de armar un TP, controlá que cubra lo que le toca según esa lista.
 - Láminas que vienen del PDF: respetar el texto, no agregar teoría.
 - Láminas nuevas (N) y "Para profundizar": texto propio, claro, para chicos de 16–17 años, con ejemplos de la escuela y la vida cotidiana. Teoría en tono neutro ("podemos…"); consignas en voseo ("Indicá", "Escribí", "Explicá").
 - No adelantar temas de TPs posteriores.
@@ -138,8 +139,8 @@ Cada color significa algo. Va en marcos, etiquetas, íconos y esquemas; **no** e
 | 6 | Software de gestión | 17–19 | PDF 5 (SGBD), 6 (gestores), 7 (relacionales y NoSQL) |
 | 7 | Modelo relacional y claves | 20–22 | PDF 8 (modelo relacional), 12 (PRIMARY KEY), 13 (FOREIGN KEY) |
 | 8 | Relaciones, formularios e informes | 23–24 | PDF 14 (1:1, 1:N, N:M) + (N) formularios e informes, solo lo básico: qué son y para qué sirven |
-| 9 | Primeros pasos con XAMPP y SQL | 25–28 | (N) XAMPP y phpMyAdmin: instalar, prender Apache y MySQL, entrar · PDF 25 (CREATE), 26 (INSERT), 27 (SELECT) |
-| Integrador | Caso práctico: la tienda | 29 | PDF 22: diseñarla y crearla en phpMyAdmin, verificar con SELECT |
+| 9 | Primeros pasos con XAMPP y SQL | 25–29 | (N) XAMPP y phpMyAdmin: instalar, prender Apache y MySQL, entrar · PDF 25 (CREATE), 26 (INSERT), 27 (SELECT) · (N) formularios e informes en phpMyAdmin: la pestaña "Insertar" como formulario de carga y una consulta guardada que se imprime o se exporta como informe |
+| Integrador | Caso práctico: la tienda | 30 | PDF 22: diseñarla, crearla en phpMyAdmin, cargarla con el formulario de "Insertar", verificarla con SELECT y sacar un informe |
 
 El resto del PDF (págs. 15–21, 23–24 y 28–40) pertenece a Base de Datos II (6.º año), que va en otro repo.
 
@@ -147,4 +148,4 @@ El resto del PDF (págs. 15–21, 23–24 y 28–40) pertenece a Base de Datos I
 
 - ~~**Antes del TP4:** qué planilla usan en la escuela (Excel y versión, LibreOffice Calc o Google Sheets). BUSCARX no existe en Excel 2019 o anterior.~~ Resuelto: **Google Sheets** (Hojas de cálculo de Google), que tiene BUSCARV y BUSCARX. Los nombres de menús y botones salen de la ayuda de Google en español (support.google.com/docs, `hl=es-419`).
 - ~~**TPs prácticos (planilla, XAMPP):** si las actividades van en la carpeta, en la computadora o en ambas.~~ Resuelto: Parte 1 en la carpeta y Parte 2 en la computadora (`.lamina--compu`).
-- **TP9:** la instalación de XAMPP se practica en Software II; la lámina queda como guía básica. "Para profundizar": qué es SQL y tipos de datos en SQL, conectados con el TP2. Sumar una consola SQL en la página (sql.js; es la única dependencia externa prevista, consultar antes de agregarla).
+- **TP9:** la instalación de XAMPP se practica en Software II; la lámina queda como guía básica. "Para profundizar": qué es SQL y tipos de datos en SQL, conectados con el TP2. Sumar una consola SQL en la página (sql.js; es la única dependencia externa prevista, consultar antes de agregarla). Los nombres de pestañas y botones de phpMyAdmin salen de la versión que trae XAMPP, en español; no los inventes.
